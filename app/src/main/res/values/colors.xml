@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark_chocolate">#463730</color>
+    <color name="cream">#EEEBD3</color>
+    <color name="light_grey">#FFAEAEAE</color>
+    <color name="primary">#EC3D3D</color>
 </resources>

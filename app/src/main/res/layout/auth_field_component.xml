@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:textSize="14dp"
+        android:fontFamily="@font/lora_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/authNameTextLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:endIconMode="clear_text"
+        app:hintEnabled="false"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/authNameEditText"
+            android:textSize="14dp"
+            android:fontFamily="@font/lora_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_input_field"
+            android:hint="Name"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:paddingVertical="16dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="0dp"
+            android:textColorHint="@color/light_grey" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_medium"
+        android:text="Username"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/authNameTextLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/authUsernameTextLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:endIconMode="clear_text"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/primary"
+        app:hintEnabled="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_label">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/authUserNameEditText"
+            android:textSize="14dp"
+            android:fontFamily="@font/lora_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_input_field"
+            android:hint="Username"
+            android:inputType="textEmailAddress"
+            android:paddingVertical="16dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="0dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_grey" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/lora_medium"
+        android:text="Password"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/authUsernameTextLayout" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/authPasswordTextLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
+        app:hintEnabled="false"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/authPasswordEditText"
+            android:textSize="14dp"
+            android:fontFamily="@font/lora_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_input_field"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingVertical="16dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="0dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_grey" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/tv_confirm_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/lora_medium"
+        android:text="Confirm Password"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/authPasswordTextLayout"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/authConfirmPasswordTextLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
+        app:hintEnabled="false"
+        app:helperText="Required*"
+        app:helperTextTextColor="@color/primary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_confirm_password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/authConfirmPasswordEditText"
+            android:textSize="14dp"
+            android:fontFamily="@font/lora_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/stroke_input_field"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:paddingVertical="16dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="0dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/light_grey" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
