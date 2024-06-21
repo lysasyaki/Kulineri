@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Menentukan izin untuk semua koneksi jaringan -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <!-- Mengonfigurasi otoritas sertifikat yang dipercaya (optional) -->
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+    <!-- Menentukan izin koneksi khusus -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.0.114</domain>
+        <!-- Tambahkan domain lainnya sesuai kebutuhan -->
+    </domain-config>
+</network-security-config>

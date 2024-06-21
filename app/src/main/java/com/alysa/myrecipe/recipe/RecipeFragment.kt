@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.alysa.myrecipe.R
-import com.alysa.myrecipe.ui.recipe.ARG_PARAM1
-import com.alysa.myrecipe.ui.recipe.ARG_PARAM2
+//import com.alysa.myrecipe.ui.recipe.ARG_PARAM1
+//import com.alysa.myrecipe.ui.recipe.ARG_PARAM2
 
 /**
  * A simple [Fragment] subclass.
@@ -21,10 +21,10 @@ class RecipeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+//        arguments?.let {
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
+//        }
     }
 
     override fun onCreateView(
@@ -45,13 +45,13 @@ class RecipeFragment : Fragment() {
          * @return A new instance of fragment RecipeFragment.
          */
         // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RecipeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+//        @JvmStatic
+//        fun newInstance(param1: String, param2: String) =
+//            RecipeFragment().apply {
+//                arguments = Bundle().apply {
+//                    putString(ARG_PARAM1, param1)
+//                    putString(ARG_PARAM2, param2)
+//                }
+//            }
     }
 }
