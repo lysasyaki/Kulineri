@@ -1,4 +1,4 @@
-package com.alysa.myrecipe.notifications
+package com.alysa.myrecipe.minuman.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.alysa.myrecipe.R
 
-class NotificationsFragment : Fragment() {
+class MinumanFragment : Fragment() {
 
     private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var textView: TextView

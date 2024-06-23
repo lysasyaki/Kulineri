@@ -56,21 +56,6 @@ class AsiaFragment : Fragment(), RecipeMakananView {
             presenter =  RecipeMakananPresenter (it, this)
             getContent()
         } ?: Log.e("CanadianFragment", "Failed to initialize ApiServiceProduct")
-
-//        val apiRecipeUnitCategory =
-//            ApiConfig.getApiService(requireContext(), "recipeMakanan") as? ApiServiceRecipeMakanan
-//        Log.d("ApiRecipeByMakanan", "ApiRecipeByMakanan is not null: $apiRecipeUnitCategory")
-//
-//        if (apiRecipeUnitCategory != null) {
-//            presenter = RecipeMakananPresenter(apiRecipeUnitCategory, this)
-//        } else {
-//            Log.e("Dashboard", "Failed to initialize apiRecipeUnitCategory")
-//            Toast.makeText(
-//                requireContext(),
-//                "Failed to initialize ApiRecipeByType",
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
     }
 
     override fun onCreateView(
@@ -87,7 +72,7 @@ class AsiaFragment : Fragment(), RecipeMakananView {
         recyclerView.adapter = adapter
 
 
-//        setLoading(adapter.itemCount == 0)
+        setLoading(adapter.itemCount == 0)
 
         val refresh =  view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
         refresh.setOnRefreshListener{
@@ -105,18 +90,18 @@ class AsiaFragment : Fragment(), RecipeMakananView {
         presenter.retrieveProductTagFromRealm()
     }
 
-//    private fun setLoading(isLoading: Boolean) {
-//        val viewLoading = view?.findViewById<RelativeLayout>(R.id.view_loading)
-//        val recyclerView = view?.findViewById<RecyclerView>(R.id.rv_asia)
-//
-//        if (isLoading) {
-//            viewLoading?.visibility = View.VISIBLE
-//            recyclerView?.visibility = View.GONE
-//        } else {
-//            viewLoading?.visibility = View.INVISIBLE
-//            recyclerView?.visibility = View.VISIBLE
-//        }
-//    }
+    private fun setLoading(isLoading: Boolean) {
+        val viewLoading = view?.findViewById<RelativeLayout>(R.id.view_loading)
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.rv_asia)
+
+        if (isLoading) {
+            viewLoading?.visibility = View.VISIBLE
+            recyclerView?.visibility = View.GONE
+        } else {
+            viewLoading?.visibility = View.INVISIBLE
+            recyclerView?.visibility = View.VISIBLE
+        }
+    }
 
     override fun displayRecipe(result: ResultState<List<DataItem>?>) {
     when (result) {
@@ -124,7 +109,7 @@ class AsiaFragment : Fragment(), RecipeMakananView {
                 // Handle data berhasil diterima
                 val productData = result.data
                 productData?.let { adapter.updateData(it) }
-//                setLoading(productData.isEmpty())
+                productData?.let { setLoading(it.isEmpty()) }
             }
             is ResultState.Error -> {
                 // Handle jika terjadi error
@@ -133,7 +118,7 @@ class AsiaFragment : Fragment(), RecipeMakananView {
             }
             is ResultState.Loading -> {
                 // Handle loading state
-//                setLoading(true)
+                setLoading(true)
                 Toast.makeText(requireContext(), "Loading..", Toast.LENGTH_SHORT).show()
             }
         }

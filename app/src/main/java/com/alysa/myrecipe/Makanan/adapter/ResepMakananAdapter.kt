@@ -57,7 +57,11 @@ class ResepMakananAdapter (
         val item = list[position]
 
         holder.tv_name.text = item?.name ?.toUpperCase() ?: ""
-        holder.tv_desc.text = item?.description ?: ""
+        holder.tv_desc.apply {
+            text = item?.description ?: ""
+            maxLines = 3
+            ellipsize = android.text.TextUtils.TruncateAt.END
+        }
         holder.tv_category.text = item?.category?.name?:""
 
         // Ambil URL gambar dari list image

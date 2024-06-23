@@ -53,7 +53,11 @@ class MakananAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
 
-        holder.tvResep.text = item?.name ?.toUpperCase() ?: ""
+        holder.tvResep.apply {
+            text = item?.name ?.toUpperCase() ?: ""
+            maxLines = 2
+            ellipsize = android.text.TextUtils.TruncateAt.END
+        }
 
         // Ambil URL gambar dari list image
         val imageUrl = item.image?.getOrNull(0)
