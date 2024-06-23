@@ -1,33 +1,76 @@
 package com.alysa.myrecipe.Makanan.presentation
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.alysa.myrecipe.Makanan.adapter.ResepMakananAdapter
+import com.alysa.myrecipe.Makanan.presenter.RecipeMakananPresenter
 import com.alysa.myrecipe.R
+import com.alysa.myrecipe.core.domain.recipe.makanan.DataItem
+import com.alysa.myrecipe.core.remote.ApiConfig
+import com.alysa.myrecipe.core.remote.ApiServiceRecipeMakanan
+import com.alysa.myrecipe.core.remote.ApiServiceRecipeType
+import com.alysa.myrecipe.core.utils.RealmManager
+import com.alysa.myrecipe.core.utils.ResultState
+import com.alysa.myrecipe.core.utils.SpacesItemDecoration
+import com.alysa.myrecipe.core.view.RecipeMakananView
+import com.alysa.myrecipe.home.presenter.RecipeTypePresenter
+import io.realm.Realm
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AsiaFragment : Fragment(), RecipeMakananView {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AsiaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AsiaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var presenter: RecipeMakananPresenter
+    private lateinit var adapter:  ResepMakananAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        Realm.init(requireContext())
+        RealmManager.initRealm()
+
+        adapter = ResepMakananAdapter(requireContext(),  object : ResepMakananAdapter.OnItemClickListener{
+            override fun onItemClick(data: DataItem) {
+                val productId = data.id ?: ""
+                Log.d("MainActivity", "Product ID clicked: $productId")
+
+//                val intent = Intent(requireContext(), DetailActivity::class.java)
+//                intent.putExtra("id", productId)
+//                startActivity(intent)
+            }
+        })
+
+        val apiServiceProduct =
+            ApiConfig.getApiService(requireContext(), "recipeMakanan") as? ApiServiceRecipeMakanan
+        Log.d("ApiServiceProduct", "ApiServiceProduct is not null: $apiServiceProduct")
+
+        apiServiceProduct?.let {
+            presenter =  RecipeMakananPresenter (it, this)
+            getContent()
+        } ?: Log.e("CanadianFragment", "Failed to initialize ApiServiceProduct")
+
+//        val apiRecipeUnitCategory =
+//            ApiConfig.getApiService(requireContext(), "recipeMakanan") as? ApiServiceRecipeMakanan
+//        Log.d("ApiRecipeByMakanan", "ApiRecipeByMakanan is not null: $apiRecipeUnitCategory")
+//
+//        if (apiRecipeUnitCategory != null) {
+//            presenter = RecipeMakananPresenter(apiRecipeUnitCategory, this)
+//        } else {
+//            Log.e("Dashboard", "Failed to initialize apiRecipeUnitCategory")
+//            Toast.makeText(
+//                requireContext(),
+//                "Failed to initialize ApiRecipeByType",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
     }
 
     override fun onCreateView(
@@ -35,26 +78,64 @@ class AsiaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_asia, container, false)
+        val view = inflater.inflate(R.layout.fragment_asia, container, false)
+
+        var recyclerView = view.findViewById<RecyclerView>(R.id.rv_asia)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerView.addItemDecoration(SpacesItemDecoration(3))
+
+        recyclerView.adapter = adapter
+
+
+//        setLoading(adapter.itemCount == 0)
+
+        val refresh =  view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh)
+        refresh.setOnRefreshListener{
+            getContent()
+            if (refresh.isRefreshing) {
+                refresh.isRefreshing = false
+            }
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AsiaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AsiaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun getContent() {
+        presenter.getRecipeMakanan("2","4")
+        presenter.retrieveProductTagFromRealm()
+    }
+
+//    private fun setLoading(isLoading: Boolean) {
+//        val viewLoading = view?.findViewById<RelativeLayout>(R.id.view_loading)
+//        val recyclerView = view?.findViewById<RecyclerView>(R.id.rv_asia)
+//
+//        if (isLoading) {
+//            viewLoading?.visibility = View.VISIBLE
+//            recyclerView?.visibility = View.GONE
+//        } else {
+//            viewLoading?.visibility = View.INVISIBLE
+//            recyclerView?.visibility = View.VISIBLE
+//        }
+//    }
+
+    override fun displayRecipe(result: ResultState<List<DataItem>?>) {
+    when (result) {
+            is ResultState.Success -> {
+                // Handle data berhasil diterima
+                val productData = result.data
+                productData?.let { adapter.updateData(it) }
+//                setLoading(productData.isEmpty())
             }
+            is ResultState.Error -> {
+                // Handle jika terjadi error
+                val errorMessage = result.error
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+            is ResultState.Loading -> {
+                // Handle loading state
+//                setLoading(true)
+                Toast.makeText(requireContext(), "Loading..", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

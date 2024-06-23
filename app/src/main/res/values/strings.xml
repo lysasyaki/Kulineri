@@ -18,4 +18,8 @@
     <string name="greeting2_dashboard">Mau masak apa hari ini ?\nAyo menjelajah dan berkarya dalam sebuah hidangan!!</string>
     <string name="rekomen_food">Rekomendasi Menu Resep Makanan</string>
     <string name="rekomen_drink">Rekomendasi Menu Resep Minuman</string>
+    <string name="tradisional">Tradisional</string>
+    <string name="modern">Modern</string>
+    <string name="barat">Barat</string>
+    <string name="asia">Asia</string>
 </resources>

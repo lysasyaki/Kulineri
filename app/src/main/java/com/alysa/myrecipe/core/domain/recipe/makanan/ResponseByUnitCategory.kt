@@ -1,12 +1,16 @@
 package com.alysa.myrecipe.core.domain.recipe.makanan
 
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmList
+import io.realm.RealmObject
+import java.io.Serializable
 
-data class ResponseByUnitCategory(
+open class ResponseByUnitCategory: RealmObject(), Serializable {
 
 	@field:SerializedName("data")
-	val data: List<DataItem?>? = null,
+	var data: RealmList<DataItem>? = null
 
 	@field:SerializedName("message")
-	val message: String? = null
-)
+	var message: String? = null
+
+}

@@ -5,6 +5,7 @@ import com.alysa.myrecipe.core.domain.auth.RequestSignUp
 import com.alysa.myrecipe.core.domain.auth.ResponseSignIn
 import com.alysa.myrecipe.core.domain.auth.ResponseSignUp
 import com.alysa.myrecipe.core.domain.recipe.ResepResponse
+import com.alysa.myrecipe.core.domain.recipe.makanan.ResponseByUnitCategory
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -31,12 +32,13 @@ interface ApiServiceRecipeType {
     ): Call<ResepResponse>
 }
 
-//interface ApiServiceRecipeType2 {
-//    @POST("recipe/type/")
-//    fun postRecipeType(
-//        @Query("1") recipeType: String
-//    ): Call<List<ResponseRecipeByTypeId>>
-//}
+interface ApiServiceRecipeMakanan {
+    @POST("recipe")
+    fun postRecipeMakanan(
+        @Query("unit_id") recipeType: String,
+        @Query("category_id") recipeCategory: String
+    ): Call<ResponseByUnitCategory>
+}
 
 //interface ApiServiceRecipe {
 //    @GET("api/v1/")

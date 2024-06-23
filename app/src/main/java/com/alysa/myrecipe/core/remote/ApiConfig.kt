@@ -40,9 +40,9 @@ class ApiConfig private constructor() {
                 "recipeType" -> {
                     retrofit.newBuilder().client(client).build().create(ApiServiceRecipeType::class.java)
                 }
-//                "recipeType2" -> {
-//                    retrofit.newBuilder().client(client).build().create(ApiServiceRecipeType2::class.java)
-//                }
+                "recipeMakanan" -> {
+                    retrofit.newBuilder().client(client).build().create(ApiServiceRecipeMakanan::class.java)
+                }
                 else -> throw IllegalArgumentException("Unknown API type: $apiType")
             }
         }
