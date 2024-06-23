@@ -29,7 +29,7 @@
             tools:ignore="ImageContrastCheck" />
 
         <TextView
-            android:id="@+id/tvBrand"
+            android:id="@+id/tvResep"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

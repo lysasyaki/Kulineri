@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.alysa.myrecipe.home.HomeFragment"
+        android:name="com.alysa.myrecipe.home.presentation.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_food"
-        android:name="com.alysa.myrecipe.dashboard.DashboardFragment"
+        android:name="com.alysa.myrecipe.Makanan.presentation.MakananFragment"
         android:label="@string/title_food"
         tools:layout="@layout/fragment_food" />
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".home.HomeFragment">
+    tools:context=".home.presentation.HomeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -103,20 +103,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_greeting_dashboard" />
 
                 <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/vp_carousel"
+                    android:id="@+id/vp_Carousel"
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:layout_marginBottom="12dp"
                     android:layout_marginTop="10dp"
                     android:overScrollMode="never"
                     android:paddingHorizontal="16dp"
-                    app:layout_constraintBottom_toTopOf="@+id/indicatorsContainer"
+                    app:layout_constraintBottom_toTopOf="@+id/inContainer"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_info_dashboard" />
 
                 <LinearLayout
-                    android:id="@+id/indicatorsContainer"
+                    android:id="@+id/inContainer"
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
                     app:layout_constraintBottom_toTopOf="@+id/tv_recommendation_food"
@@ -135,7 +135,7 @@
                     android:text="@string/rekomen_food"
                     android:textColor="@color/dark_chocolate"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/indicatorsContainer" />
+                    app:layout_constraintTop_toBottomOf="@id/inContainer" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_food"
@@ -150,8 +150,26 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_recommendation_food"
                     tools:listitem="@layout/item_card" />
 
+                <RelativeLayout
+                    android:id="@+id/view_loading_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white50"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recommendation_food">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="Please wait"
+                        android:textColor="@color/dark_chocolate"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
                 <TextView
-                    android:id="@+id/tv_foundation"
+                    android:id="@+id/tv_recommendation_drink"
                     android:textSize="14dp"
                     android:fontFamily="@font/lora_semi_bold"
                     android:layout_width="wrap_content"
@@ -164,7 +182,7 @@
                     app:layout_constraintTop_toBottomOf="@id/rv_food" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_foundation"
+                    android:id="@+id/rv_drink"
                     android:layout_width="0dp"
                     android:layout_height="210dp"
                     android:layout_marginStart="15dp"
@@ -173,8 +191,26 @@
                     android:scrollbarAlwaysDrawHorizontalTrack="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_foundation"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recommendation_drink"
                     tools:listitem="@layout/item_card" />
+
+                <RelativeLayout
+                    android:id="@+id/view_loading_drink"
+                    android:layout_width="match_parent"
+                    android:layout_height="210dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/white50"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recommendation_drink">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="Please wait"
+                        android:textColor="@color/dark_chocolate"
+                        android:textSize="16sp" />
+                </RelativeLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
