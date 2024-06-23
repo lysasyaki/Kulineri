@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.alysa.myrecipe.Makanan.adapter.SectionPagerAdapter
 import com.alysa.myrecipe.R
+import com.alysa.myrecipe.minuman.adapter.SectionMinumanAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
