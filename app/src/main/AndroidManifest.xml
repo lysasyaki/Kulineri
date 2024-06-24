@@ -28,16 +28,18 @@
             android:exported="false" />
         <activity
             android:name=".auth.presentation.SignInActivity"
-            android:exported="true">
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SpalshScreen"
-            android:exported="false"></activity>
     </application>
 
 </manifest>

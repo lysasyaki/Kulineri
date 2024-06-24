@@ -1,5 +1,7 @@
 package com.alysa.myrecipe.core.remote
 
+import com.alysa.myrecipe.core.domain.Favorite.DataFavorite
+import com.alysa.myrecipe.core.domain.Favorite.ResponseFavorite
 import com.alysa.myrecipe.core.domain.auth.RequestSignIn
 import com.alysa.myrecipe.core.domain.auth.RequestSignUp
 import com.alysa.myrecipe.core.domain.auth.ResponseSignIn
@@ -41,12 +43,12 @@ interface ApiServiceRecipeMakanan {
     ): Call<ResponseByUnitCategory>
 }
 
-//interface ApiServiceRecipeDetail {
-//    @GET("recipe")
-//    fun getRecipeDetail(
-//        @Query("unit_id") recipeType: String
-//    ): Call<ResponseByUnitCategory>
-//}
+interface ApiServiceRecipeFavorite {
+    @POST("add-favorite")
+    fun getRecipeDetail(
+        @Query("recipe_id") recipeFavorite: String
+    ): Call<ResponseFavorite>
+}
 
 //interface ApiServiceRecipe {
 //    @GET("api/v1/")

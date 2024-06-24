@@ -65,6 +65,14 @@ class DetailActivity : AppCompatActivity(), RecipeMakananView {
         btnBack.setOnClickListener {
             onBackPressed()
         }
+
+        val btnFavorite = findViewById<ImageView>(R.id.btnFavorite)
+
+        btnFavorite.setOnClickListener {
+            // Handle logic for favorite button click
+            // Misalnya, panggil metode untuk menambahkan resep ini ke daftar favorit
+//            addToFavorites(dataItem)
+        }
     }
 
     private fun initRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {

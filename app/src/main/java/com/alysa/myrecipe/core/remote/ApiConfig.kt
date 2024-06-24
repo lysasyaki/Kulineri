@@ -43,6 +43,9 @@ class ApiConfig private constructor() {
                 "recipeMakanan" -> {
                     retrofit.newBuilder().client(client).build().create(ApiServiceRecipeMakanan::class.java)
                 }
+                "addFavorite" -> {
+                    retrofit.newBuilder().client(client).build().create(ApiServiceRecipeFavorite::class.java)
+                }
                 else -> throw IllegalArgumentException("Unknown API type: $apiType")
             }
         }

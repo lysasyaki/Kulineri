@@ -9,9 +9,11 @@ import com.alysa.myrecipe.core.domain.auth.ResponseSignUp
 import com.alysa.myrecipe.core.remote.ApiConfig
 import com.alysa.myrecipe.core.remote.ApiServiceSignIn
 import com.alysa.myrecipe.core.remote.ApiServiceSignUp
+import com.alysa.myrecipe.core.utils.LoginManager
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmModel
+import io.realm.kotlin.where
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,6 +40,8 @@ class UserPresenter(private val context: Context) {
                     val userResponse = response.body()
                     if (userResponse != null) {
                         saveUserToRealm(userResponse)
+                        LoginManager.saveToken(context, userResponse.token, userResponse.refreshToken)
+                        LoginManager.saveLoginStatus(context, true)
                         callback(true)
                     } else {
                         callback(false)
@@ -99,5 +103,42 @@ class UserPresenter(private val context: Context) {
             realm.close()
         })
     }
+
+//    private fun saveUserToRealm(userResponse: ResponseSignIn) {
+//        val realm = Realm.getDefaultInstance()
+//        realm.executeTransaction { realmTransaction ->
+//            realmTransaction.insertOrUpdate(userResponse)
+//        }
+//        realm.close()
+//    }
+
+    fun isUserLoggedIn(): Boolean {
+        return LoginManager.isLoggedIn(context)
+    }
+
+    fun logout() {
+        LoginManager.logout(context)
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction {
+            it.delete(ResponseSignIn::class.java)
+        }
+        realm.close()
+    }
+//
+//    fun isUserLoggedIn(): Boolean {
+//        val realm = Realm.getDefaultInstance()
+//        val user = realm.where<ResponseSignIn>().findFirst()
+//        val isLoggedIn = user?.token?.isNotEmpty() == true
+//        realm.close()
+//        return isLoggedIn
+//    }
+//
+//    fun logout() {
+//        val realm = Realm.getDefaultInstance()
+//        realm.executeTransaction {
+//            it.delete(ResponseSignIn::class.java)
+//        }
+//        realm.close()
+//    }
 
 }

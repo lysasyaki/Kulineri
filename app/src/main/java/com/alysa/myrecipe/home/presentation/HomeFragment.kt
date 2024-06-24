@@ -66,9 +66,9 @@ class HomeFragment : Fragment(), RecipeTypeView {
                 val productId = data. id ?: ""
                 Log.d("MainActivity", "Product ID clicked: $productId")
 
-//                val intent = Intent(requireContext(), DetailActivity::class.java)
-//                intent.putExtra("id", productId)
-//                startActivity(intent)
+                val intent = Intent(requireContext(), DetailActivity::class.java)
+                intent.putExtra("id", productId)
+                startActivity(intent)
             }
         })
 

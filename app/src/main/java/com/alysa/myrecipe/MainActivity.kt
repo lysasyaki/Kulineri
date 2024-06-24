@@ -1,13 +1,16 @@
 package com.alysa.myrecipe
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.alysa.myrecipe.auth.presentation.SignInActivity
 import com.alysa.myrecipe.auth.presenter.UserPresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.alysa.myrecipe.core.utils.RealmManager
+import com.alysa.myrecipe.home.presentation.HomeFragment
 import io.realm.Realm
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +24,12 @@ class MainActivity : AppCompatActivity() {
         RealmManager.initRealm()
 
         presenter = UserPresenter(this)
+
+        if (!presenter.isUserLoggedIn()) {
+            // Pengguna belum login, arahkan ke activity login
+            startActivity(Intent(this, SignInActivity::class.java))
+            finish()
+        }
 
         // Initialize views
         val navView: BottomNavigationView = findViewById(R.id.bottomNavigation)
