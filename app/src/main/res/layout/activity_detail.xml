@@ -1,9 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cream"
     tools:context=".recipe.detail.view.DetailActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerCrop"
+        android:elevation="1dp"
+        android:src="@drawable/icon_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerCrop"
+        android:elevation="1dp"
+        android:src="@drawable/icon_favorite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/gambar_default"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ImageContrastCheck" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:background="@drawable/gradient_view"
+            app:layout_constraintBottom_toBottomOf="@+id/ivRecipe"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvRecipeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="230dp"
+        android:layout_marginStart="24dp"
+        android:scaleType="centerCrop"
+        android:elevation="1dp"
+        android:fontFamily="@font/lora_bold"
+        android:text="Nama Resep"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lora_regular"
+        android:scaleType="centerCrop"
+        android:elevation="1dp"
+        android:text="Resep oleh"
+        android:textSize="15dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/tvRecipeName"
+        app:layout_constraintTop_toBottomOf="@+id/tvRecipeName" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:scaleType="centerCrop"
+        android:elevation="1dp"
+        android:text="Nama"
+        android:textColor="@color/white"
+        android:fontFamily="@font/lora_semi_bold"
+        app:layout_constraintBottom_toBottomOf="@id/tvBy"
+        app:layout_constraintStart_toEndOf="@id/tvBy"
+        app:layout_constraintTop_toTopOf="@id/tvBy" />
+
+        <TextView
+            android:id="@+id/tvDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:elevation="1dp"
+            android:fontFamily="@font/lora_regular"
+            android:scaleType="centerCrop"
+            android:text="Keterangan mengenai resep"
+            android:textColor="@color/dark_chocolate"
+            android:textSize="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivRecipe" />
+
+        <TextView
+            android:id="@+id/tvTittleBahan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:elevation="1dp"
+            android:fontFamily="@font/lora_bold"
+            android:scaleType="centerCrop"
+            android:text="Bahan - Bahan"
+            android:textColor="@color/dark_chocolate"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDesc"/>
+
+        <TextView
+            android:id="@+id/tvBahan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:elevation="1dp"
+            android:text="Resep oleh"
+            android:textSize="15dp"
+            android:textColor="@color/dark_chocolate"
+            app:layout_constraintStart_toStartOf="@id/tvTittleBahan"
+            app:layout_constraintTop_toBottomOf="@+id/tvTittleBahan" />
+
+        <TextView
+            android:id="@+id/tvTittleLangkah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:elevation="1dp"
+            android:fontFamily="@font/lora_bold"
+            android:scaleType="centerCrop"
+            android:text="Bahan - Bahan"
+            android:textColor="@color/dark_chocolate"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBahan"/>
+
+        <TextView
+            android:id="@+id/tvLangkah"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lora_regular"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="20dp"
+            android:elevation="1dp"
+            android:text="Resep oleh"
+            android:textSize="15dp"
+            android:textColor="@color/dark_chocolate"
+            app:layout_constraintStart_toStartOf="@id/tvTittleLangkah"
+            app:layout_constraintTop_toBottomOf="@+id/tvTittleLangkah" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
