@@ -1,5 +1,6 @@
 package com.alysa.myrecipe.minuman.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ import com.alysa.myrecipe.core.utils.SpacesItemDecoration
 import com.alysa.myrecipe.core.view.RecipeMakananView
 import com.alysa.myrecipe.minuman.adapter.ResepMinumanAdapter
 import com.alysa.myrecipe.minuman.presenter.RecipeMinumanPresenter
+import com.alysa.myrecipe.recipe.detail.view.DetailActivity
 import io.realm.Realm
 
 class ModernMinumanFragment : Fragment(), RecipeMakananView {
@@ -39,9 +41,9 @@ class ModernMinumanFragment : Fragment(), RecipeMakananView {
                 val productId = data.id ?: ""
                 Log.d("Modern", "Product ID clicked: $productId")
 
-//                val intent = Intent(requireContext(), DetailActivity::class.java)
-//                intent.putExtra("id", productId)
-//                startActivity(intent)
+                val intent = Intent(requireContext(), DetailActivity::class.java)
+                intent.putExtra("id", productId)
+                startActivity(intent)
             }
         })
 

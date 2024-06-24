@@ -24,6 +24,7 @@ import com.alysa.myrecipe.core.utils.ResultState
 import com.alysa.myrecipe.core.utils.SpacesItemDecoration
 import com.alysa.myrecipe.core.view.RecipeMakananView
 import com.alysa.myrecipe.home.presenter.RecipeTypePresenter
+import com.alysa.myrecipe.recipe.detail.view.DetailActivity
 import io.realm.Realm
 
 class AsiaFragment : Fragment(), RecipeMakananView {
@@ -42,9 +43,9 @@ class AsiaFragment : Fragment(), RecipeMakananView {
                 val productId = data.id ?: ""
                 Log.d("MainActivity", "Product ID clicked: $productId")
 
-//                val intent = Intent(requireContext(), DetailActivity::class.java)
-//                intent.putExtra("id", productId)
-//                startActivity(intent)
+                val intent = Intent(requireContext(), DetailActivity::class.java)
+                intent.putExtra("id", productId)
+                startActivity(intent)
             }
         })
 

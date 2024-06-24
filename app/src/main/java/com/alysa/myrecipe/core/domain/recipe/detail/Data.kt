@@ -1,42 +1,46 @@
 package com.alysa.myrecipe.core.domain.recipe.detail
 
+import com.alysa.myrecipe.core.domain.recipe.makanan.User
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+import java.io.Serializable
 
-data class Data(
+open class DataDetail: RealmObject(), Serializable {
+	@PrimaryKey
+	var id: Int = 0
 
 	@field:SerializedName("image")
-	val image: List<String?>? = null,
+	var image: RealmList<String>? = null
 
 	@field:SerializedName("createdAt")
-	val createdAt: String? = null,
+	var createdAt: String? = null
 
 	@field:SerializedName("category_id")
-	val categoryId: Int? = null,
+	var categoryId: Int? = null
 
 	@field:SerializedName("user_id")
-	val userId: Int? = null,
+	var userId: Int? = null
 
 	@field:SerializedName("Ingredient")
-	val ingredient: String? = null,
+	var ingredient: String? = null
 
 	@field:SerializedName("name")
-	val name: String? = null,
+	var name: String? = null
 
 	@field:SerializedName("description")
-	val description: String? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
+	var description: String? = null
 
 	@field:SerializedName("Instruction")
-	val instruction: String? = null,
+	var instruction: String? = null
 
 	@field:SerializedName("unit_id")
-	val unitId: Int? = null,
+	var unitId: Int? = null
 
 	@field:SerializedName("user")
-	val user: User? = null,
+	var user: User? = null
 
 	@field:SerializedName("updatedAt")
-	val updatedAt: String? = null
-)
+	var updatedAt: String? = null
+}

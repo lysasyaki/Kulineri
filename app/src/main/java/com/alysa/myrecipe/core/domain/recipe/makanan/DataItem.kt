@@ -37,6 +37,9 @@ open class DataItem: RealmObject(), Serializable {
 	@field:SerializedName("category")
 	var category: Category? = null
 
+	@field:SerializedName("user")
+	var user: User? = null
+
 	@field:SerializedName("unit_id")
 	var unitId: Int? = null
 

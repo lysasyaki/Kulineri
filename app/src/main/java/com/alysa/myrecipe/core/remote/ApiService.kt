@@ -8,6 +8,7 @@ import com.alysa.myrecipe.core.domain.recipe.ResepResponse
 import com.alysa.myrecipe.core.domain.recipe.makanan.ResponseByUnitCategory
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -39,6 +40,13 @@ interface ApiServiceRecipeMakanan {
         @Query("category_id") recipeCategory: String
     ): Call<ResponseByUnitCategory>
 }
+
+//interface ApiServiceRecipeDetail {
+//    @GET("recipe")
+//    fun getRecipeDetail(
+//        @Query("unit_id") recipeType: String
+//    ): Call<ResponseByUnitCategory>
+//}
 
 //interface ApiServiceRecipe {
 //    @GET("api/v1/")

@@ -1,5 +1,6 @@
 package com.alysa.myrecipe.home.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -31,6 +32,7 @@ import com.alysa.myrecipe.home.adapter.MakananAdapter
 import com.alysa.myrecipe.home.adapter.MinumanAdapter
 import com.alysa.myrecipe.home.presenter.RecipeTypePresenter
 import com.alysa.myrecipe.home.presenter.slider
+import com.alysa.myrecipe.recipe.detail.view.DetailActivity
 import io.realm.Realm
 
 class HomeFragment : Fragment(), RecipeTypeView {
@@ -75,9 +77,9 @@ class HomeFragment : Fragment(), RecipeTypeView {
                 val productId = data.id ?: ""
                 Log.d("MainActivity", "Product ID clicked: $productId")
 
-//                val intent = Intent(requireContext(), DetailActivity::class.java)
-//                intent.putExtra("id", productId)
-//                startActivity(intent)
+                val intent = Intent(requireContext(), DetailActivity::class.java)
+                intent.putExtra("id", productId)
+                startActivity(intent)
             }
         })
 
