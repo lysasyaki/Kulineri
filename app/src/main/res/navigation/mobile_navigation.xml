@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_recipe"
-        android:name="com.alysa.myrecipe.recipe.RecipeFragment"
+        android:name="com.alysa.myrecipe.recipe.FavoriteFragment"
         android:label="@string/title_recipe"
-        tools:layout="@layout/fragment_recipe" />
+        tools:layout="@layout/fragment_favorite" />
 </navigation>

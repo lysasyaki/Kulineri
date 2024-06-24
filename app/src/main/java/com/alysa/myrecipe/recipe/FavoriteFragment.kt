@@ -11,10 +11,10 @@ import com.alysa.myrecipe.R
 
 /**
  * A simple [Fragment] subclass.
- * Use the [RecipeFragment.newInstance] factory method to
+ * Use the [FavoriteFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class RecipeFragment : Fragment() {
+class FavoriteFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -32,7 +32,7 @@ class RecipeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe, container, false)
+        return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
 
     companion object {
