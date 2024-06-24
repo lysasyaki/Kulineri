@@ -22,4 +22,5 @@
     <string name="modern">Modern</string>
     <string name="barat">Barat</string>
     <string name="asia">Asia</string>
+    <string name="confirmation">Kamu yakin untuk keluar?\nKamu harus masuk kembali jika keluar</string>
 </resources>
