@@ -46,6 +46,9 @@ class ApiConfig private constructor() {
                 "addFavorite" -> {
                     retrofit.newBuilder().client(client).build().create(ApiServiceRecipeFavorite::class.java)
                 }
+                "signOut" -> {
+                    retrofit.newBuilder().client(client).build().create(ApiServiceSignOut::class.java)
+                }
                 else -> throw IllegalArgumentException("Unknown API type: $apiType")
             }
         }

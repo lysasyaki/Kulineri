@@ -2,18 +2,21 @@ package com.alysa.myrecipe.auth.presenter
 
 import android.content.Context
 import android.util.Log
+import com.alysa.myrecipe.auth.model.UserToken
 import com.alysa.myrecipe.core.domain.auth.RequestSignIn
 import com.alysa.myrecipe.core.domain.auth.RequestSignUp
 import com.alysa.myrecipe.core.domain.auth.ResponseSignIn
+import com.alysa.myrecipe.core.domain.auth.ResponseSignOut
 import com.alysa.myrecipe.core.domain.auth.ResponseSignUp
 import com.alysa.myrecipe.core.remote.ApiConfig
 import com.alysa.myrecipe.core.remote.ApiServiceSignIn
+import com.alysa.myrecipe.core.remote.ApiServiceSignOut
 import com.alysa.myrecipe.core.remote.ApiServiceSignUp
 import com.alysa.myrecipe.core.utils.LoginManager
+import com.google.gson.Gson
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmModel
-import io.realm.kotlin.where
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,9 +42,8 @@ class UserPresenter(private val context: Context) {
                 if (response.isSuccessful) {
                     val userResponse = response.body()
                     if (userResponse != null) {
-                        saveUserToRealm(userResponse)
-                        LoginManager.saveToken(context, userResponse.token, userResponse.refreshToken)
-                        LoginManager.saveLoginStatus(context, true)
+                        val userToken = UserToken(token = userResponse.token)
+                        saveUserToRealm(userToken)
                         callback(true)
                     } else {
                         callback(false)
@@ -95,50 +97,26 @@ class UserPresenter(private val context: Context) {
         realm.executeTransactionAsync({ realm ->
             realm.copyToRealmOrUpdate(user)
         }, {
-            // Transaksi Realm berhasil selesai
-            realm.close()
+            // Transaction succeeded
+            realm.executeTransactionAsync({ r ->
+                val savedToken = r.where(UserToken::class.java).equalTo("id", "user_token").findFirst()
+                if (savedToken != null) {
+                    Log.d("UserPresenter", "Token saved successfully: ${savedToken.token}")
+                } else {
+                    Log.e("UserPresenter", "Token not found in Realm")
+                }
+            }, {
+                // Success callback for token check
+                realm.close()
+            }, { error ->
+                // Error callback for token check
+                Log.e("UserPresenter", "Failed to verify token in Realm: ${error.message}")
+                realm.close()
+            })
         }, { error ->
-            // Tangani kesalahan jika ada
+            // Handle error
             Log.e("UserPresenter", "Failed to save user to Realm: ${error.message}")
             realm.close()
         })
     }
-
-//    private fun saveUserToRealm(userResponse: ResponseSignIn) {
-//        val realm = Realm.getDefaultInstance()
-//        realm.executeTransaction { realmTransaction ->
-//            realmTransaction.insertOrUpdate(userResponse)
-//        }
-//        realm.close()
-//    }
-
-    fun isUserLoggedIn(): Boolean {
-        return LoginManager.isLoggedIn(context)
-    }
-
-    fun logout() {
-        LoginManager.logout(context)
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransaction {
-            it.delete(ResponseSignIn::class.java)
-        }
-        realm.close()
-    }
-//
-//    fun isUserLoggedIn(): Boolean {
-//        val realm = Realm.getDefaultInstance()
-//        val user = realm.where<ResponseSignIn>().findFirst()
-//        val isLoggedIn = user?.token?.isNotEmpty() == true
-//        realm.close()
-//        return isLoggedIn
-//    }
-//
-//    fun logout() {
-//        val realm = Realm.getDefaultInstance()
-//        realm.executeTransaction {
-//            it.delete(ResponseSignIn::class.java)
-//        }
-//        realm.close()
-//    }
-
 }

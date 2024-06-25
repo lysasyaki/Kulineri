@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.alysa.myrecipe.R
+import com.alysa.myrecipe.auth.presentation.ProfileActivity
 import com.alysa.myrecipe.core.domain.recipe.Data
 import com.alysa.myrecipe.core.remote.ApiConfig
 import com.alysa.myrecipe.core.remote.ApiServiceRecipeType
@@ -172,6 +174,12 @@ class HomeFragment : Fragment(), RecipeTypeView {
             if (refresh.isRefreshing) {
                 refresh.isRefreshing = false
             }
+        }
+
+        val btnProfile = view.findViewById<ImageView>(R.id.profile)
+        btnProfile.setOnClickListener {
+            val intent = Intent(requireContext(), ProfileActivity::class.java)
+            startActivity(intent)
         }
 
         return view

@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
 
         presenter = UserPresenter(this)
 
-        if (!presenter.isUserLoggedIn()) {
-            // Pengguna belum login, arahkan ke activity login
-            startActivity(Intent(this, SignInActivity::class.java))
-            finish()
-        }
+//        if (!presenter.isUserLoggedIn()) {
+//            // Pengguna belum login, arahkan ke activity login
+//            startActivity(Intent(this, SignInActivity::class.java))
+//            finish()
+//        }
 
         // Initialize views
         val navView: BottomNavigationView = findViewById(R.id.bottomNavigation)

@@ -5,12 +5,14 @@ import com.alysa.myrecipe.core.domain.Favorite.ResponseFavorite
 import com.alysa.myrecipe.core.domain.auth.RequestSignIn
 import com.alysa.myrecipe.core.domain.auth.RequestSignUp
 import com.alysa.myrecipe.core.domain.auth.ResponseSignIn
+import com.alysa.myrecipe.core.domain.auth.ResponseSignOut
 import com.alysa.myrecipe.core.domain.auth.ResponseSignUp
 import com.alysa.myrecipe.core.domain.recipe.ResepResponse
 import com.alysa.myrecipe.core.domain.recipe.makanan.ResponseByUnitCategory
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -48,6 +50,13 @@ interface ApiServiceRecipeFavorite {
     fun getRecipeDetail(
         @Query("recipe_id") recipeFavorite: String
     ): Call<ResponseFavorite>
+}
+
+interface ApiServiceSignOut {
+    @POST("signOut")
+    fun postSignOut(
+        @Header("Authorization") authorization: String
+    ): Call<ResponseSignOut>
 }
 
 //interface ApiServiceRecipe {

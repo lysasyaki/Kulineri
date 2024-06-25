@@ -35,17 +35,11 @@ private suspend fun delaySplashScreen() {
     navigateToAppropriateScreen()
 }
 
-private fun navigateToAppropriateScreen() {
-    val isLoggedIn = LoginManager.isLoggedIn(this)
-    val destination = if (isLoggedIn) {
-        MainActivity::class.java
-    } else {
-        SignInActivity::class.java
+    private fun navigateToAppropriateScreen() {
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+        finish()
     }
-    val intent = Intent(this, destination)
-    startActivity(intent)
-    finish()
-}
 
 override fun onDestroy() {
     super.onDestroy()
