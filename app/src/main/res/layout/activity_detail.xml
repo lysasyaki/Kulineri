@@ -152,7 +152,7 @@
             android:elevation="1dp"
             android:fontFamily="@font/lora_bold"
             android:scaleType="centerCrop"
-            android:text="Bahan - Bahan"
+            android:text="Langkah - Langkah"
             android:textColor="@color/dark_chocolate"
             android:textSize="15dp"
             app:layout_constraintStart_toStartOf="parent"

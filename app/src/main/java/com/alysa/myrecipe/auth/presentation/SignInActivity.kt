@@ -6,7 +6,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -17,8 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.alysa.myrecipe.MainActivity
 import com.alysa.myrecipe.R
 import com.alysa.myrecipe.auth.presenter.UserPresenter
-import com.alysa.myrecipe.core.domain.auth.ResponseSignIn
 import com.alysa.myrecipe.core.utils.LoginManager
+import com.alysa.myrecipe.core.utils.UserDataStoreImpl
 import com.google.android.material.textfield.TextInputLayout
 
 class SignInActivity : AppCompatActivity() {
@@ -28,7 +27,8 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
-        presenter = UserPresenter(this) // Initialize your presenter here
+        val userDataStoreImpl = UserDataStoreImpl(this)
+        presenter = UserPresenter(this, userDataStoreImpl) // Initialize your presenter here
 
         val usernameEditText = findViewById<EditText>(R.id.authUserNameEditText)
         val passwordEditText = findViewById<EditText>(R.id.authPasswordEditText)

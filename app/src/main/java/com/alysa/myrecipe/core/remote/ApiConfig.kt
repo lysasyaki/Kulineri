@@ -44,7 +44,7 @@ class ApiConfig private constructor() {
                     retrofit.newBuilder().client(client).build().create(ApiServiceRecipeMakanan::class.java)
                 }
                 "addFavorite" -> {
-                    retrofit.newBuilder().client(client).build().create(ApiServiceRecipeFavorite::class.java)
+                    retrofit.newBuilder().client(client).build().create(ApiServiceFavorite::class.java)
                 }
                 "signOut" -> {
                     retrofit.newBuilder().client(client).build().create(ApiServiceSignOut::class.java)

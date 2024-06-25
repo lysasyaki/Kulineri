@@ -20,6 +20,7 @@ import android.widget.TextView
 import com.alysa.myrecipe.auth.presenter.UserPresenter
 import com.alysa.myrecipe.core.domain.auth.RequestSignUp
 import com.alysa.myrecipe.core.utils.LoginManager
+import com.alysa.myrecipe.core.utils.UserDataStoreImpl
 
 class SignUpActivity : AppCompatActivity(){
 
@@ -29,7 +30,8 @@ class SignUpActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        presenter = UserPresenter(this) // Initialize your presenter here
+        val userDataStoreImpl = UserDataStoreImpl(this)
+        presenter = UserPresenter(this, userDataStoreImpl) // Initialize your presenter here
 
         val usernameEditText = findViewById<EditText>(R.id.authUserNameEditText)
         val passwordEditText = findViewById<EditText>(R.id.authPasswordEditText)

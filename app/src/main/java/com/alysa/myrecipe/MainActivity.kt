@@ -10,6 +10,7 @@ import com.alysa.myrecipe.auth.presentation.SignInActivity
 import com.alysa.myrecipe.auth.presenter.UserPresenter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.alysa.myrecipe.core.utils.RealmManager
+import com.alysa.myrecipe.core.utils.UserDataStoreImpl
 import com.alysa.myrecipe.home.presentation.HomeFragment
 import io.realm.Realm
 
@@ -23,7 +24,9 @@ class MainActivity : AppCompatActivity() {
         Realm.init(this)
         RealmManager.initRealm()
 
-        presenter = UserPresenter(this)
+        val userDataStoreImpl = UserDataStoreImpl(this)
+
+        presenter = UserPresenter(this, userDataStoreImpl)
 
 //        if (!presenter.isUserLoggedIn()) {
 //            // Pengguna belum login, arahkan ke activity login

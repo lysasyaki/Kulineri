@@ -1,27 +1,29 @@
 package com.alysa.myrecipe.recipe.detail.view
 
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.alysa.myrecipe.R
 import com.alysa.myrecipe.core.domain.recipe.makanan.DataItem
+import com.alysa.myrecipe.core.remote.ApiConfig
+import com.alysa.myrecipe.core.remote.ApiServiceFavorite
+import com.alysa.myrecipe.core.remote.ApiServiceRecipeMakanan
 import com.alysa.myrecipe.core.utils.RealmManager
 import com.alysa.myrecipe.core.utils.ResultState
-import com.alysa.myrecipe.core.utils.SpacesItemDecoration
+import com.alysa.myrecipe.core.utils.UserDataStoreImpl
 import com.alysa.myrecipe.core.view.RecipeMakananView
 import com.alysa.myrecipe.recipe.detail.presenter.DetailPresenter
+import com.alysa.myrecipe.recipe.detail.presenter.FavoritesPresenter
 import com.bumptech.glide.Glide
 import io.realm.Realm
 
 class DetailActivity : AppCompatActivity(), RecipeMakananView {
 
     private lateinit var presenter: DetailPresenter
+    private lateinit var favorites: FavoritesPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,10 @@ class DetailActivity : AppCompatActivity(), RecipeMakananView {
 
         val btnBack = findViewById<ImageView>(R.id.btnBack)
 
+        val userDataStoreImpl = UserDataStoreImpl(this)
         presenter = DetailPresenter()
+        favorites = FavoritesPresenter(this, userDataStoreImpl)
+
         val uniqueId = intent.getIntExtra("id", 0)
         val dataItem = presenter.getDataByIdFromRealm(uniqueId)
 
@@ -69,17 +74,18 @@ class DetailActivity : AppCompatActivity(), RecipeMakananView {
         val btnFavorite = findViewById<ImageView>(R.id.btnFavorite)
 
         btnFavorite.setOnClickListener {
-            // Handle logic for favorite button click
-            // Misalnya, panggil metode untuk menambahkan resep ini ke daftar favorit
-//            addToFavorites(dataItem)
+            dataItem?.let {
+                favorites.addFavorite(it.id) { success ->
+                    runOnUiThread {
+                        if (success) {
+                            Toast.makeText(this, "Resep berhasil disimpan ke favorit", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "Gagal menyimpan resep ke favorit", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
         }
-    }
-
-    private fun initRecyclerView(adapter: RecyclerView.Adapter<*>, recyclerView: RecyclerView) {
-        val spanCount = 5
-        recyclerView.layoutManager = GridLayoutManager(this, spanCount, GridLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(SpacesItemDecoration(6))
     }
 
     override fun displayRecipe(result: ResultState<List<DataItem>?>) {
