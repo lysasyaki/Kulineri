@@ -2,7 +2,7 @@ package com.alysa.myrecipe.core.domain.Favorite
 
 import com.google.gson.annotations.SerializedName
 
-data class Data(
+data class DataFavorite(
 
 	@field:SerializedName("createdAt")
 	val createdAt: String? = null,

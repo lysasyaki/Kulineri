@@ -1,11 +1,11 @@
-package com.alysa.myrecipe.core.domain.Favorite
+package com.alysa.myrecipe.core.domain.Favorite.delete
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseFavorite(
+data class ResponseDeleteFav(
 
 	@field:SerializedName("data")
-	val data: DataFavorite? = null,
+	val data: DataDeleteFav? = null,
 
 	@field:SerializedName("message")
 	val message: String? = null

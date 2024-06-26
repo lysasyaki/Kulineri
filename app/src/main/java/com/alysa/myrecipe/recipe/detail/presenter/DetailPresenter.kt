@@ -1,5 +1,6 @@
 package com.alysa.myrecipe.recipe.detail.presenter
 
+import com.alysa.myrecipe.core.domain.recipe.detail.DataDetail
 import com.alysa.myrecipe.core.domain.recipe.makanan.DataItem
 import io.realm.Realm
 
