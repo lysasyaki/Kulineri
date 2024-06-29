@@ -5,17 +5,17 @@ import com.google.gson.annotations.SerializedName
 data class DataFavorite(
 
 	@field:SerializedName("createdAt")
-	val createdAt: String? = null,
+	var createdAt: String? = null,
 
 	@field:SerializedName("recipe_id")
-	val recipeId: Int? = null,
+	var recipeId: Int? = null,
 
 	@field:SerializedName("user_id")
-	val userId: Int? = null,
+	var userId: Int? = null,
 
 	@field:SerializedName("id")
-	val id: Int? = null,
+	var id: Int? = null,
 
 	@field:SerializedName("updatedAt")
-	val updatedAt: String? = null
+	var updatedAt: String? = null
 )

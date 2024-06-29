@@ -5,12 +5,12 @@ import io.realm.RealmList
 import io.realm.RealmObject
 import java.io.Serializable
 
-open class ResponseByUnitCategory: RealmObject(), Serializable {
+open class ResponseByUnitCategory(
 
 	@field:SerializedName("data")
-	var data: RealmList<DataItem>? = null
+	var data: List<DataItem>? = null,
 
 	@field:SerializedName("message")
 	var message: String? = null
 
-}
+)

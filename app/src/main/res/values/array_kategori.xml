@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="kategori">
+        <item>Tradisional</item>
+        <item>Modern</item>
+        <item>Barat</item>
+        <item>Asia</item>
+    </string-array>
+</resources>

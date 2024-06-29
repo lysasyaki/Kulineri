@@ -14,4 +14,8 @@
     </style>
 
     <style name="Theme.MyRecipe" parent="Base.Theme.MyRecipe" />
+
+    <style name="SpinnerTextStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:textColor">@android:color/black</item> <!-- Warna teks menjadi hitam -->
+    </style>
 </resources>

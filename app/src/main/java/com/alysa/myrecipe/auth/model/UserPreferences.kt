@@ -10,5 +10,5 @@ data class UserPreferences(
     val refreshToken: String? = null,
     val recipeId: Int? = null,
     var isFavorite: Boolean? = null,
-    val favoriteRecipes: MutableSet<Int> = mutableSetOf()
+    val favoriteRecipes: MutableSet<Int> = mutableSetOf(),
 )

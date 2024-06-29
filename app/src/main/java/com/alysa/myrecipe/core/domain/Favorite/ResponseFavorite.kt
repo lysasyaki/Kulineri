@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class ResponseFavorite(
 
 	@field:SerializedName("data")
-	val data: DataFavorite? = null,
+	var data: DataFavorite? = null,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	var message: String? = null
 )

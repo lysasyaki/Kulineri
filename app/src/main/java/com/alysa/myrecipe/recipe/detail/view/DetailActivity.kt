@@ -1,236 +1,148 @@
-//package com.alysa.myrecipe.recipe.detail.view
-//
-//import android.content.Context
-//import android.content.SharedPreferences
-//import androidx.appcompat.app.AppCompatActivity
-//import android.os.Bundle
-//import android.widget.ImageView
-//import android.widget.TextView
-//import android.widget.Toast
-//import com.alysa.myrecipe.R
-//import com.alysa.myrecipe.core.domain.recipe.makanan.DataItem
-//import com.alysa.myrecipe.core.utils.UserDataStoreImpl
-//import com.alysa.myrecipe.recipe.detail.presenter.DetailPresenter
-//import com.alysa.myrecipe.recipe.detail.presenter.FavoritesPresenter
-//import com.bumptech.glide.Glide
-//
-//class DetailActivity : AppCompatActivity() {
-//
-//    private lateinit var presenter: DetailPresenter
-//    private lateinit var favorites: FavoritesPresenter
-//    private lateinit var userDataStoreImpl: UserDataStoreImpl
-//    private lateinit var btnFavorite: ImageView
-//    private lateinit var sharedPreferences: SharedPreferences
-//    private var dataItem: DataItem? = null
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_detail)
-//
-//        userDataStoreImpl = UserDataStoreImpl(this)
-//        presenter = DetailPresenter()
-//        favorites = FavoritesPresenter(this, userDataStoreImpl)
-//        sharedPreferences = getSharedPreferences("favorite_prefs", Context.MODE_PRIVATE)
-//
-//        val uniqueId = intent.getIntExtra("id", 0)
-//        dataItem = presenter.getDataByIdFromRealm(uniqueId)
-//
-//        setupUI()
-//
-//        btnFavorite.setOnClickListener {
-//            dataItem?.let {
-//                if (isFavorite(it.id)) {
-//                    // Jika sudah disimpan (tombol berwarna merah), lakukan penghapusan
-//                    favorites.deleteFavorite(it.id) { success ->
-//                        runOnUiThread {
-//                            if (success) {
-//                                Toast.makeText(this, "Resep berhasil dihapus dari favorit", Toast.LENGTH_SHORT).show()
-//                                // Hapus status dari SharedPreferences
-//                                removeFavorite(it.id)
-//                                // Update UI setelah penghapusan dari favorit
-//                                updateFavoriteButton(false)
-//                            } else {
-//                                Toast.makeText(this, "Gagal menghapus resep dari favorit", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    // Jika belum disimpan (tombol putih), tambahkan ke favorit
-//                    favorites.addFavorite(it.id) { success ->
-//                        runOnUiThread {
-//                            if (success) {
-//                                Toast.makeText(this, "Resep berhasil disimpan ke favorit", Toast.LENGTH_SHORT).show()
-//                                // Simpan status di SharedPreferences
-//                                saveFavorite(it.id)
-//                                // Update UI setelah penambahan ke favorit
-//                                updateFavoriteButton(true)
-//                            } else {
-//                                Toast.makeText(this, "Gagal menyimpan resep ke favorit", Toast.LENGTH_SHORT).show()
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun setupUI() {
-//        val tvRecipe = findViewById<TextView>(R.id.tvRecipeName)
-//        tvRecipe.text = dataItem?.name?.toUpperCase() ?: ""
-//
-//        val tvName = findViewById<TextView>(R.id.tvName)
-//        tvName.text = dataItem?.user?.name ?: ""
-//
-//        val tv_desc = findViewById<TextView>(R.id.tvDesc)
-//        tv_desc.text = dataItem?.description ?: ""
-//
-//        val tv_bahan = findViewById<TextView>(R.id.tvBahan)
-//        tv_bahan.text = dataItem?.ingredient ?: ""
-//
-//        val tv_langkah = findViewById<TextView>(R.id.tvLangkah)
-//        tv_langkah.text = dataItem?.instruction ?: ""
-//
-//        val imgResep = findViewById<ImageView>(R.id.ivRecipe)
-//
-//        val imageUrl = dataItem?.image?.getOrNull(0)
-//
-//        Glide.with(this)
-//            .load(imageUrl)
-//            .placeholder(R.drawable.gambar_default)
-//            .error(R.drawable.gambar_default)
-//            .centerCrop()
-//            .into(imgResep)
-//
-//        btnFavorite = findViewById(R.id.btnFavorite)
-//        updateFavoriteButton(isFavorite(dataItem?.id ?: 0))
-//    }
-//
-//    private fun saveFavorite(recipeId: Int) {
-//        sharedPreferences.edit().putBoolean("favorite_$recipeId", true).apply()
-//    }
-//
-//    private fun removeFavorite(recipeId: Int) {
-//        sharedPreferences.edit().remove("favorite_$recipeId").apply()
-//    }
-//
-//    private fun isFavorite(recipeId: Int): Boolean {
-//        return sharedPreferences.getBoolean("favorite_$recipeId", false)
-//    }
-//
-//    private fun updateFavoriteButton(isFavorite: Boolean) {
-//        if (isFavorite) {
-//            // Set button color to red or any desired color for saved state
-//            btnFavorite.setImageResource(R.drawable.icon_favorite_red) // Example icon change
-//        } else {
-//            // Set button color to white or any desired color for unsaved state
-//            btnFavorite.setImageResource(R.drawable.icon_favorite_white) // Example icon change
-//        }
-//    }
-//}
-
-
 package com.alysa.myrecipe.recipe.detail.view
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.alysa.myrecipe.R
-import com.alysa.myrecipe.core.domain.recipe.makanan.DataItem
-import com.alysa.myrecipe.core.utils.RealmManager
+import com.alysa.myrecipe.auth.model.UserPreferences
+import com.alysa.myrecipe.core.domain.recipe.detail.DataDetail
 import com.alysa.myrecipe.core.utils.ResultState
 import com.alysa.myrecipe.core.utils.UserDataStoreImpl
-import com.alysa.myrecipe.core.view.RecipeMakananView
+import com.alysa.myrecipe.core.view.RecipeDetailView
 import com.alysa.myrecipe.recipe.detail.presenter.DetailPresenter
 import com.alysa.myrecipe.recipe.detail.presenter.FavoritesPresenter
 import com.bumptech.glide.Glide
-import io.realm.Realm
+import com.google.gson.Gson
 
-class DetailActivity : AppCompatActivity(), RecipeMakananView {
+class DetailActivity : AppCompatActivity(), RecipeDetailView {
 
     private lateinit var presenter: DetailPresenter
     private lateinit var favorites: FavoritesPresenter
+    private lateinit var btnFavorite: ImageView
+    private var isFavorite: Boolean = false
+    private var recipeId: Int = 0
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var userPreferences: UserPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        Realm.init(this)
-        RealmManager.initRealm()
+        btnFavorite = findViewById(R.id.btnFavorite)
 
-        val btnBack = findViewById<ImageView>(R.id.btnBack)
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val userPreferencesJson = sharedPreferences.getString("user_preferences", null)
+        if (userPreferencesJson != null) {
+            userPreferences = Gson().fromJson(userPreferencesJson, UserPreferences::class.java)
+        } else {
+
+            userPreferences = UserPreferences()
+        }
+        favorites = FavoritesPresenter(this, userPreferences)
 
         val userDataStoreImpl = UserDataStoreImpl(this)
-        presenter = DetailPresenter()
-        favorites = FavoritesPresenter(this, userDataStoreImpl)
+        presenter = DetailPresenter(this, userDataStoreImpl, this)
 
         val uniqueId = intent.getIntExtra("id", 0)
-        val dataItem = presenter.getDataByIdFromRealm(uniqueId)
+        recipeId = uniqueId
+        presenter.getDetailRecipe(uniqueId)
 
-        val tvRecipe = findViewById<TextView>(R.id.tvRecipeName)
-        tvRecipe.text = dataItem?.name?.toUpperCase() ?:""
-
-        val tvName = findViewById<TextView>(R.id.tvName)
-        tvName.text = dataItem?.user?. name ?:""
-
-        val tv_desc = findViewById<TextView>(R.id.tvDesc)
-        tv_desc.text = dataItem?.description ?: ""
-
-        val tv_bahan = findViewById<TextView>(R.id.tvBahan)
-        tv_bahan.text = dataItem?.ingredient ?:""
-
-        val tv_langkah = findViewById<TextView>(R.id.tvLangkah)
-        tv_langkah.text = dataItem?.instruction ?: ""
-
-        var imgResep = findViewById<ImageView>(R.id.ivRecipe)
-
-        val imageUrl = dataItem?.image?.getOrNull(0)
-
-        Glide.with(this)
-            .load(imageUrl)
-            .placeholder(R.drawable.gambar_default)
-            .error(R.drawable.gambar_default)
-            .centerCrop()
-            .into(imgResep)
-
+        val btnBack = findViewById<ImageView>(R.id.btnBack)
         btnBack.setOnClickListener {
             onBackPressed()
         }
 
-        val btnFavorite = findViewById<ImageView>(R.id.btnFavorite)
+        updateFavoriteButton()
 
         btnFavorite.setOnClickListener {
-            dataItem?.let {
-                favorites.addFavorite(it.id) { success ->
-                    runOnUiThread {
-                        if (success) {
-                            Toast.makeText(this, "Resep berhasil disimpan ke favorit", Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(this, "Gagal menyimpan resep ke favorit", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+            toggleFavorite()
+        }
+    }
+
+    private fun toggleFavorite() {
+        if (isFavorite) {
+            favorites.deleteFavorite(recipeId, userPreferences) { success ->
+                if (success) {
+                    isFavorite = false
+                    updateFavoriteButton()
+                    showToast("Removed from favorites")
+                } else {
+                    showToast("Failed to remove from favorites")
+                }
+            }
+        } else {
+            favorites.addFavorite(recipeId, userPreferences) { success ->
+                if (success) {
+                    isFavorite = true
+                    updateFavoriteButton()
+                    showToast("Added to favorites")
+                } else {
+                    showToast("Failed to add to favorites")
                 }
             }
         }
     }
 
-    override fun displayRecipe(result: ResultState<List<DataItem>?>) {
+    private fun updateFavoriteButton() {
+        if (isFavorite) {
+            btnFavorite.setImageResource(R.drawable.icon_favorite_red)
+        } else {
+            btnFavorite.setImageResource(R.drawable.icon_favorite_white)
+        }
+    }
+
+    override fun displayDetail(result: ResultState<DataDetail>) {
         when (result) {
             is ResultState.Success -> {
-                // Handle data berhasil diterima
-                val productData = result.data
+                val dataDetail = result.data
+                if (dataDetail != null) {
+                    isFavorite = userPreferences.favoriteRecipes.contains(recipeId)
+                    updateFavoriteButton()
 
+                    val tvRecipe = findViewById<TextView>(R.id.tvRecipeName)
+                    tvRecipe.text = dataDetail.name?.toUpperCase() ?: ""
+
+                    val tvName = findViewById<TextView>(R.id.tvName)
+                    tvName.text = dataDetail.user?.name ?: ""
+
+                    val tvDesc = findViewById<TextView>(R.id.tvDesc)
+                    tvDesc.text = dataDetail.description ?: ""
+
+                    val tvBahan = findViewById<TextView>(R.id.tvBahan)
+                    tvBahan.text = dataDetail.ingredient ?: ""
+
+                    val tvLangkah = findViewById<TextView>(R.id.tvLangkah)
+                    tvLangkah.text = dataDetail.instruction ?: ""
+
+                    val imgResep = findViewById<ImageView>(R.id.ivRecipe)
+                    val imageUrl = dataDetail.image?.getOrNull(0)
+
+                    Glide.with(this)
+                        .load(imageUrl)
+                        .placeholder(R.drawable.gambar_default)
+                        .error(R.drawable.gambar_default)
+                        .centerCrop()
+                        .into(imgResep)
+
+                    presenter.currentDataItem = dataDetail
+                } else {
+                    Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
+                }
             }
             is ResultState.Error -> {
-                // Handle jika terjadi error
                 val errorMessage = result.error
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
             is ResultState.Loading -> {
-                // Handle loading state
                 Toast.makeText(this, "Loading..", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

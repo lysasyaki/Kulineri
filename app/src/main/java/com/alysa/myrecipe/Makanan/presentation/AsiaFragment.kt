@@ -26,6 +26,7 @@ import com.alysa.myrecipe.core.view.RecipeMakananView
 import com.alysa.myrecipe.home.presenter.RecipeTypePresenter
 import com.alysa.myrecipe.recipe.detail.view.DetailActivity
 import io.realm.Realm
+import io.realm.RealmList
 
 class AsiaFragment : Fragment(), RecipeMakananView {
 
@@ -34,9 +35,6 @@ class AsiaFragment : Fragment(), RecipeMakananView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Realm.init(requireContext())
-        RealmManager.initRealm()
 
         adapter = ResepMakananAdapter(requireContext(),  object : ResepMakananAdapter.OnItemClickListener{
             override fun onItemClick(data: DataItem) {
@@ -56,7 +54,7 @@ class AsiaFragment : Fragment(), RecipeMakananView {
         apiServiceProduct?.let {
             presenter =  RecipeMakananPresenter (it, this)
             getContent()
-        } ?: Log.e("CanadianFragment", "Failed to initialize ApiServiceProduct")
+        } ?: Log.e("Asia Fragment", "Failed to initialize ApiServiceProduct")
     }
 
     override fun onCreateView(
@@ -71,7 +69,6 @@ class AsiaFragment : Fragment(), RecipeMakananView {
         recyclerView.addItemDecoration(SpacesItemDecoration(3))
 
         recyclerView.adapter = adapter
-
 
         setLoading(adapter.itemCount == 0)
 
@@ -88,7 +85,6 @@ class AsiaFragment : Fragment(), RecipeMakananView {
 
     private fun getContent() {
         presenter.getRecipeMakanan("2","4")
-        presenter.retrieveProductTagFromRealm()
     }
 
     private fun setLoading(isLoading: Boolean) {
@@ -107,10 +103,14 @@ class AsiaFragment : Fragment(), RecipeMakananView {
     override fun displayRecipe(result: ResultState<List<DataItem>?>) {
     when (result) {
             is ResultState.Success -> {
-                // Handle data berhasil diterima
                 val productData = result.data
-                productData?.let { adapter.updateData(it) }
-                productData?.let { setLoading(it.isEmpty()) }
+                productData?.let {
+                    adapter.updateData(it)
+                    setLoading(it.isEmpty())
+                } ?: run {
+                    setLoading(true)
+                    Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
+                }
             }
             is ResultState.Error -> {
                 // Handle jika terjadi error

@@ -11,4 +11,8 @@
     <style name="SplashTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
+
+    <style name="SpinnerTextStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:textColor">@android:color/black</item> <!-- Warna teks menjadi hitam -->
+    </style>
 </resources>

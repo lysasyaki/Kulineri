@@ -24,6 +24,7 @@ import com.alysa.myrecipe.minuman.adapter.ResepMinumanAdapter
 import com.alysa.myrecipe.minuman.presenter.RecipeMinumanPresenter
 import com.alysa.myrecipe.recipe.detail.view.DetailActivity
 import io.realm.Realm
+import io.realm.RealmList
 
 class ModernMinumanFragment : Fragment(), RecipeMakananView {
 
@@ -32,9 +33,6 @@ class ModernMinumanFragment : Fragment(), RecipeMakananView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Realm.init(requireContext())
-        RealmManager.initRealm()
 
         adapter = ResepMinumanAdapter(requireContext(),  object : ResepMinumanAdapter.OnItemClickListener{
             override fun onItemClick(data: DataItem) {
@@ -86,7 +84,6 @@ class ModernMinumanFragment : Fragment(), RecipeMakananView {
 
     private fun getContent() {
         presenter.getRecipeMinuman("1","1")
-        presenter.retrieveProductTagFromRealm()
     }
 
     private fun setLoading(isLoading: Boolean) {

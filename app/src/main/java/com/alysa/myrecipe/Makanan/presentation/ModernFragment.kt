@@ -24,6 +24,7 @@ import com.alysa.myrecipe.core.utils.SpacesItemDecoration
 import com.alysa.myrecipe.core.view.RecipeMakananView
 import com.alysa.myrecipe.recipe.detail.view.DetailActivity
 import io.realm.Realm
+import io.realm.RealmList
 
 class ModernFragment : Fragment(), RecipeMakananView {
 
@@ -32,9 +33,6 @@ class ModernFragment : Fragment(), RecipeMakananView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Realm.init(requireContext())
-        RealmManager.initRealm()
 
         adapter = ResepMakananAdapter(requireContext(),  object : ResepMakananAdapter.OnItemClickListener{
             override fun onItemClick(data: DataItem) {
@@ -86,7 +84,6 @@ class ModernFragment : Fragment(), RecipeMakananView {
 
     private fun getContent() {
         presenter.getRecipeMakanan("2","1")
-        presenter.retrieveProductTagFromRealm()
     }
 
     private fun setLoading(isLoading: Boolean) {
@@ -105,10 +102,14 @@ class ModernFragment : Fragment(), RecipeMakananView {
     override fun displayRecipe(result: ResultState<List<DataItem>?>) {
         when (result) {
             is ResultState.Success -> {
-                // Handle data berhasil diterima
                 val productData = result.data
-                productData?.let { adapter.updateData(it) }
-                productData?.let { setLoading(it.isEmpty()) }
+                productData?.let {
+                    adapter.updateData(it)
+                    setLoading(it.isEmpty())
+                } ?: run {
+                    setLoading(true)
+                    Toast.makeText(requireContext(), "No data available", Toast.LENGTH_SHORT).show()
+                }
             }
             is ResultState.Error -> {
                 // Handle jika terjadi error

@@ -3,22 +3,31 @@ package com.alysa.myrecipe.core.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.alysa.myrecipe.auth.model.RecipePreferances
 import com.alysa.myrecipe.auth.model.UserPreferences
+import com.google.gson.Gson
 
 class UserDataStoreImpl(private val context: Context) {
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    fun saveToken(token: String, refreshToken: String?) {
+    fun saveToken(token: String, refreshToken: String?, id: Int) {
         val editor = sharedPreferences.edit()
         editor.putString("token", token)
         editor.putString("refreshToken", refreshToken)
+        editor.putInt("id", id)
         editor.apply()
         Log.d("UserDataStoreImpl", "Token saved: $token")
     }
 
     fun getToken(): String? {
         return sharedPreferences.getString("token", null)
+    }
+
+    fun getUserId(): Int {
+        val userId = sharedPreferences.getInt("id", -1)
+        Log.d("UserDataStoreImpl", "Retrieved userId: $userId")
+        return userId
     }
 
     fun getRefreshToken(): String? {
@@ -49,7 +58,7 @@ class UserDataStoreImpl(private val context: Context) {
         val username = sharedPreferences.getString("username", "")
         val age = sharedPreferences.getString("age", "")
 
-        return UserPreferences(id, name, username, age)
+        return UserPreferences(id, name ?: "", username ?: "", age ?: "")
     }
 
     fun clearUser() {
@@ -69,20 +78,4 @@ class UserDataStoreImpl(private val context: Context) {
         Log.d("UserDataStoreImpl", "Favorite status saved: Recipe $recipeId isFavorite: $isFavorite")
     }
 
-    fun getFavoriteStatus(recipeId: Int): Boolean {
-        return sharedPreferences.getBoolean("favorite_$recipeId", false)
-    }
-
-    fun saveFavoriteRecipeId(recipeId: Int) {
-        val editor = sharedPreferences.edit()
-        editor.putInt("favorite_recipe_id", recipeId)
-        editor.apply()
-        Log.d("UserDataStoreImpl", "Favorite recipe ID saved: $recipeId")
-    }
-    fun removeFavoriteRecipeId(recipeId: Int) {
-        val editor = sharedPreferences.edit()
-        editor.remove("favorite_recipe_id_$recipeId")
-        editor.apply()
-        Log.d("UserDataStoreImpl", "Favorite recipe ID removed: $recipeId")
-    }
 }

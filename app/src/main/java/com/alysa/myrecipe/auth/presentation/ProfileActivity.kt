@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.alysa.myrecipe.MainActivity
 import com.alysa.myrecipe.R
+import com.alysa.myrecipe.recipe.FavoriteActivity
 import kotlinx.coroutines.MainScope
 
 class ProfileActivity : AppCompatActivity() {
@@ -16,6 +17,7 @@ class ProfileActivity : AppCompatActivity() {
 
         val out = findViewById<FrameLayout>(R.id.btn_keluar)
         val back = findViewById<ImageView>(R.id.iv_back)
+        val resep = findViewById<FrameLayout>(R.id.btn_resep)
 
         out.setOnClickListener {
             val intent = Intent(this,ConfirmationActivity::class.java)
@@ -25,6 +27,12 @@ class ProfileActivity : AppCompatActivity() {
 
         back.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        resep.setOnClickListener {
+            val intent = Intent(this, FavoriteActivity::class.java)
             startActivity(intent)
             finish()
         }

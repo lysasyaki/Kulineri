@@ -47,9 +47,10 @@ class UserPresenter(private val context: Context, private val userDataStoreImpl:
                         if (user != null) {
                             val token = user.token
                             val refreshToken = user.refreshToken
-                            if (!token.isNullOrBlank() && !refreshToken.isNullOrBlank()) {
+                            val id = user.id
+                            if (!token.isNullOrBlank() && !refreshToken.isNullOrBlank() && id !=null) {
                                 // Save token and refreshToken
-                                userDataStoreImpl.saveToken(token, refreshToken)
+                                userDataStoreImpl.saveToken(token, refreshToken, id)
                                 Log.d("UserPresenter", "Token saved: $token")
                                 callback(true)
                             } else {

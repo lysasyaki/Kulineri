@@ -32,9 +32,6 @@ class RecipeMinumanPresenter (
                         makananResponse?.let {
                             val food = it.data
                             food?.let {
-                                for (food in food) {
-                                    saveResepToRealm(food)
-                                }
                                 view.displayRecipe(ResultState.Success(food))
                             }
                         } ?: run {
@@ -56,56 +53,56 @@ class RecipeMinumanPresenter (
             view.displayRecipe(ResultState.Error(e.message.toString()))
         }
     }
-    fun saveResepToRealm(data: DataItem) {
-        val realm = Realm.getDefaultInstance()
-        realm.executeTransactionAsync(
-            { backgroundRealm ->
-                backgroundRealm.insertOrUpdate(data)
-            },
-            {
-                realm.close()
-            },
-            { error ->
-                error.printStackTrace()
-                realm.close()
-            }
-        )
-    }
+//    fun saveResepToRealm(data: DataItem) {
+//        val realm = Realm.getDefaultInstance()
+//        realm.executeTransactionAsync(
+//            { backgroundRealm ->
+//                backgroundRealm.insertOrUpdate(data)
+//            },
+//            {
+//                realm.close()
+//            },
+//            { error ->
+//                error.printStackTrace()
+//                realm.close()
+//            }
+//        )
+//    }
 
-    fun getDataByIdFromRealm(uniqueId: Int): DataItem? {
-        val realm = Realm.getDefaultInstance()
-        return realm.where(DataItem::class.java).equalTo("id", uniqueId).findFirst()
-    }
+//    fun getDataByIdFromRealm(uniqueId: Int): DataItem? {
+//        val realm = Realm.getDefaultInstance()
+//        return realm.where(DataItem::class.java).equalTo("id", uniqueId).findFirst()
+//    }
 
-    fun getProductFromRealm() {
-        val realm = Realm.getDefaultInstance()
-        val result = realm.where(DataItem::class.java).findAll()
+//    fun getProductFromRealm() {
+//        val realm = Realm.getDefaultInstance()
+//        val result = realm.where(DataItem::class.java).findAll()
+//
+//        if (result.isNotEmpty()) {
+//            val items = mutableListOf<DataItem>().apply {
+//                addAll(realm.copyFromRealm(result))
+//            }
+//            view.displayRecipe(ResultState.Success(items))
+//        } else {
+//            view.displayRecipe(ResultState.Error(""))
+//        }
+//
+//        realm.close()
+//    }
 
-        if (result.isNotEmpty()) {
-            val items = mutableListOf<DataItem>().apply {
-                addAll(realm.copyFromRealm(result))
-            }
-            view.displayRecipe(ResultState.Success(items))
-        } else {
-            view.displayRecipe(ResultState.Error(""))
-        }
-
-        realm.close()
-    }
-
-    fun retrieveProductTagFromRealm() {
-        val realm = Realm.getDefaultInstance()
-        val result = realm.where(DataItem::class.java).findAll()
-
-        if (result.isNotEmpty()) {
-            val items = RealmList<DataItem>().apply {
-                Collections.addAll(realm.copyFromRealm(result))
-            }
-            view.displayRecipe(ResultState.Success(items))
-        } else {
-            view.displayRecipe(ResultState.Error("No data in Realm"))
-        }
-
-        realm.close()
-    }
+//    fun retrieveProductTagFromRealm() {
+//        val realm = Realm.getDefaultInstance()
+//        val result = realm.where(DataItem::class.java).findAll()
+//
+//        if (result.isNotEmpty()) {
+//            val items = RealmList<DataItem>().apply {
+//                Collections.addAll(realm.copyFromRealm(result))
+//            }
+//            view.displayRecipe(ResultState.Success(items))
+//        } else {
+//            view.displayRecipe(ResultState.Error("No data in Realm"))
+//        }
+//
+//        realm.close()
+//    }
 }
