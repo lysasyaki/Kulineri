@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,8 @@ import com.bumptech.glide.Glide
 
 class ResepMinumanAdapter (
     private val context: Context,
-    private val itemClickListener: OnItemClickListener
+    private val itemClickListener: OnItemClickListener,
+    private val showResepButton: Boolean
 ) : RecyclerView.Adapter<ResepMinumanAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
@@ -28,9 +30,13 @@ class ResepMinumanAdapter (
         var tv_name: TextView = itemView.findViewById(R.id.tvName)
         var tv_desc: TextView = itemView.findViewById(R.id.tvResepDesc)
         var img_Resep: ImageView = itemView.findViewById(R.id.ivResep)
+        var btn_resep: FrameLayout = itemView.findViewById(R.id.btn_resepku)
 
         init {
-            itemView.setOnClickListener {
+            if (btn_resep == null) {
+                Log.e("ViewHolder", "btnResep is null")
+            }
+                itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     itemClickListener.onItemClick(list[position])
@@ -56,6 +62,7 @@ class ResepMinumanAdapter (
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
 
+        holder.btn_resep.visibility = if (showResepButton) View.VISIBLE else View.GONE
         holder.tv_name.text = item?.name ?.toUpperCase() ?: ""
         holder.tv_desc.apply {
             text = item?.description ?: ""

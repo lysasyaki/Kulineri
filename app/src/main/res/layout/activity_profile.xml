@@ -106,28 +106,28 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <FrameLayout
-            android:id="@+id/btn_edit"
+            android:id="@+id/btn_resep"
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/btn_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/sc_profile"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_submit"
+                android:id="@+id/tv_resep"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/lora_semi_bold"
                 android:gravity="center"
-                android:text="Edit Profil"
+                android:text="Lihat Resep Favorite"
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
             <ProgressBar
-                android:id="@+id/progress_submit"
+                android:id="@+id/progress_resep"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_gravity="center"
@@ -137,18 +137,18 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/btn_resep"
+            android:id="@+id/btn_resepku"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="20dp"
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/btn_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_edit"
+            app:layout_constraintTop_toBottomOf="@id/btn_resep"
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/tv_resep"
+                android:id="@+id/tv_resepku"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/lora_semi_bold"
@@ -158,7 +158,7 @@
                 android:textSize="16dp" />
 
             <ProgressBar
-                android:id="@+id/progress_resep"
+                android:id="@+id/progress_resepku"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_gravity="center"
@@ -175,7 +175,7 @@
             android:layout_marginHorizontal="30dp"
             android:background="@drawable/btn_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_resep"
+            app:layout_constraintTop_toBottomOf="@id/btn_resepku"
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView

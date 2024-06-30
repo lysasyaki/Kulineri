@@ -35,11 +35,25 @@ private suspend fun delaySplashScreen() {
     navigateToAppropriateScreen()
 }
 
+//    private fun navigateToAppropriateScreen() {
+//        val intent = Intent(this, SignInActivity::class.java)
+//        startActivity(intent)
+//        finish()
+//    }
+
     private fun navigateToAppropriateScreen() {
-        val intent = Intent(this, SignInActivity::class.java)
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
+        val intent = if (token.isNullOrEmpty()) {
+            Intent(this, SignInActivity::class.java)
+        } else {
+            Intent(this, MainActivity::class.java) // Ganti dengan aktivitas utama Anda
+        }
         startActivity(intent)
         finish()
     }
+
 
 override fun onDestroy() {
     super.onDestroy()

@@ -61,7 +61,7 @@
             android:textSize="12dp"
             android:fontFamily="@font/lora_regular"
             android:layout_width="170dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="10dp"
             android:maxWidth="200dp"
@@ -72,6 +72,37 @@
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/tvName"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+        <FrameLayout
+            android:id="@+id/btn_resepku"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_background"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintStart_toStartOf="@+id/tvResepDesc"
+            app:layout_constraintTop_toBottomOf="@+id/tvResepDesc">
+
+            <TextView
+                android:id="@+id/tv_resepku"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/lora_semi_bold"
+                android:gravity="center"
+                android:text="Hapus Resep"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+
+            <ProgressBar
+                android:id="@+id/progress_resepku"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/white"
+                android:visibility="gone" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

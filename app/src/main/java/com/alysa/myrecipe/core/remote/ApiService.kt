@@ -9,6 +9,8 @@ import com.alysa.myrecipe.core.domain.auth.ResponseSignOuts
 import com.alysa.myrecipe.core.domain.auth.ResponseSignUp
 import com.alysa.myrecipe.core.domain.auth.signIn.ResponseSignIn
 import com.alysa.myrecipe.core.domain.recipe.ResepResponse
+import com.alysa.myrecipe.core.domain.recipe.byUser.RecipeByUserResponse
+import com.alysa.myrecipe.core.domain.recipe.delete.DeleteRecipeResponse
 import com.alysa.myrecipe.core.domain.recipe.detail.DetailResponse
 import com.alysa.myrecipe.core.domain.recipe.makanan.ResponseByUnitCategory
 import com.alysa.myrecipe.core.domain.recipe.upload.ResponseUploadRecipe
@@ -107,4 +109,20 @@ interface ApiServiceDetail {
         @Header("Authorization") authorization: String,
         @Path("id") id: Int
     ): Call<DetailResponse>
+}
+
+interface ApiServiceRecipeByUser {
+    @GET("resep")
+    fun getRecipes(
+        @Header("Authorization") authorization: String,
+        @Query("user_id") UserId: Int
+    ): Call<RecipeByUserResponse>
+}
+
+interface ApiServiceDeleteRecipe {
+    @DELETE("delete-recipe")
+    fun deleteRecipe(
+        @Header("Authorization") token: String,
+        @Query("id") recipeId: Int
+    ): Call<DeleteRecipeResponse>
 }

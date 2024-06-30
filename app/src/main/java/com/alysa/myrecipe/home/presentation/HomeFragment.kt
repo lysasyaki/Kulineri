@@ -1,5 +1,6 @@
 package com.alysa.myrecipe.home.presentation
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -114,6 +115,11 @@ class HomeFragment : Fragment(), RecipeTypeView {
 
         val viewPager = view.findViewById<ViewPager2>(R.id.vp_Carousel)
         indicatorsContainer = view.findViewById(R.id.inContainer)
+
+        val tvUsername = view.findViewById<TextView>(R.id.user)
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString("username", "Guest")
+        tvUsername.text = username
 
         // Set adapter to ViewPager
         viewPager.adapter = carouselAdapter

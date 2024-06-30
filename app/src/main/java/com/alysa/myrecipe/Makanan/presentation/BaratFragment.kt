@@ -43,7 +43,7 @@ class BaratFragment : Fragment(), RecipeMakananView {
                 intent.putExtra("id", productId)
                 startActivity(intent)
             }
-        })
+        }, showResepButton = false)
 
         val apiServiceProduct = ApiConfig.getApiService(requireContext(), "recipeMakanan") as? ApiServiceRecipeMakanan
         Log.d("ApiServiceProduct", "ApiServiceProduct is not null: $apiServiceProduct")

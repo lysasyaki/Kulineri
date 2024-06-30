@@ -5,6 +5,7 @@ import com.alysa.myrecipe.core.domain.Favorite.get.DataGet
 import com.alysa.myrecipe.core.domain.auth.ResponseSignUp
 import com.alysa.myrecipe.core.domain.auth.signIn.ResponseSignIn
 import com.alysa.myrecipe.core.domain.recipe.Data
+import com.alysa.myrecipe.core.domain.recipe.byUser.DataByUser
 import com.alysa.myrecipe.core.domain.recipe.category.ResponseCategory
 import com.alysa.myrecipe.core.domain.recipe.category.ResponseType
 import com.alysa.myrecipe.core.domain.recipe.detail.DataDetail
@@ -39,6 +40,10 @@ interface RecipeFavorite {
 
 interface RecipeDetailView {
     fun displayDetail(result: ResultState<DataDetail>)
+}
+
+interface RecipeByUser {
+    fun displayRecipe(result: ResultState<List<DataByUser>?>)
 }
 
 interface RecipeAddFavorite {

@@ -48,9 +48,10 @@ class UserPresenter(private val context: Context, private val userDataStoreImpl:
                             val token = user.token
                             val refreshToken = user.refreshToken
                             val id = user.id
-                            if (!token.isNullOrBlank() && !refreshToken.isNullOrBlank() && id !=null) {
+                            val username = user.username
+                            if (!token.isNullOrBlank() && !refreshToken.isNullOrBlank() && id !=null && !username.isNullOrBlank()) {
                                 // Save token and refreshToken
-                                userDataStoreImpl.saveToken(token, refreshToken, id)
+                                userDataStoreImpl.saveToken(token, refreshToken, id, username)
                                 Log.d("UserPresenter", "Token saved: $token")
                                 callback(true)
                             } else {
@@ -136,7 +137,7 @@ class UserPresenter(private val context: Context, private val userDataStoreImpl:
                 override fun onResponse(call: Call<ResponseSignOuts>, response: Response<ResponseSignOuts>) {
                     if (response.isSuccessful) {
                         // Clear token and refresh token locally
-                        userDataStoreImpl.clearUser()
+                        userDataStoreImpl.clearToken()
                         callback(true)
                     } else {
                         val errorBody = response.errorBody()?.string()

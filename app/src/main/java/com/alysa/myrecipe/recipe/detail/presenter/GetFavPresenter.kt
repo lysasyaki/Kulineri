@@ -19,7 +19,6 @@ class GetFavPresenter (
 
     fun getFavorite(context: Context) {
         try {
-            // Ambil userId dari SharedPreferences
             val sharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             val userId = sharedPreferences.getInt("id", -1)
 
@@ -60,37 +59,4 @@ class GetFavPresenter (
             view.displayFavorite(ResultState.Error(e.message.toString()))
         }
     }
-
-//    fun getFavorite(
-//        userId: Int,
-//        callback: Boolean
-//    ) {
-//        try {
-//            val user = userDataStoreImpl.getUser()?.id ?: -1
-//            user.let { user ->
-//                val apiServiceGetFavorite =
-//                    ApiConfig.getApiService(context, "getFavorite") as ApiServiceGetFavorite
-//                val call = apiServiceGetFavorite.getFavorites(userId)
-//                call.enqueue(object : Callback<ResponseGetFavorite> {
-//                    override fun onResponse(
-//                        call: Call<ResponseGetFavorite>,
-//                        response: Response<ResponseGetFavorite>
-//                    ) {
-//                        if (response.isSuccessful) {
-//                            callback
-//                        } else {
-//                            callback
-//                        }
-//                    }
-//                    override fun onFailure(call: Call<ResponseGetFavorite>, t: Throwable) {
-//                        Log.e("FavoritesPresenter", "Error: ${t.message}", t)
-//                        callback
-//                    }
-//                })
-//            }
-//        } catch (e: Exception) {
-//            Log.e("FavoritesPresenter", "Error: ${e.message}", e)
-//            callback
-//        }
-//    }
 }

@@ -10,38 +10,45 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.alysa.myrecipe.R
-import com.alysa.myrecipe.core.domain.Favorite.get.DataGet
+import com.alysa.myrecipe.core.domain.recipe.byUser.DataByUser
+import com.alysa.myrecipe.core.domain.recipe.delete.DataDelete
 import com.bumptech.glide.Glide
 
-class FavoriteAdapter(
+class ResepkuAdapter (
     private val context: Context,
     private val itemClickListener: OnItemClickListener,
-    private val showResepButton: Boolean
-) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
+    private val deleteClickListener: OnDeleteClickListener
+) : RecyclerView.Adapter<ResepkuAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(data: DataGet)
+        fun onItemClick(data: DataByUser)
     }
 
-    private val list: MutableList<DataGet> = mutableListOf()
+    interface OnDeleteClickListener {
+        fun onDeleteClick(data: DataByUser)
+    }
+
+    private val list: MutableList<DataByUser> = mutableListOf()
+//    private val lists: MutableList<DataDelete> = mutableListOf()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tv_name: TextView = itemView.findViewById(R.id.tvName)
         var tv_desc: TextView = itemView.findViewById(R.id.tvResepDesc)
         var img_Resep: ImageView = itemView.findViewById(R.id.ivResep)
         var tv_kategori: TextView = itemView.findViewById(R.id.tvCategory)
-        var btn_resep: FrameLayout = itemView.findViewById(R.id.btn_resepku)
+        var btn_hapus: FrameLayout = itemView.findViewById(R.id.btn_resepku)
 
         init {
-            if (tv_kategori == null) {
-                Log.e("ViewHolder", "tvCategory is null")
-            } else {
-                Log.d("ViewHolder", "tvCategory initialized")
+            btn_hapus.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val data = list[position]
+                    deleteClickListener.onDeleteClick(data)
+                }
             }
-            if (btn_resep == null) {
-                Log.e("ViewHolder", "btnResep is null")
-            } else {
-                Log.d("ViewHolder", "btnResep initialized")
+
+            if (tv_kategori == null) {
+                Log.e("ViewHolder", "tvKategori is null")
             }
             itemView.setOnClickListener {
                 val position = adapterPosition
@@ -65,15 +72,14 @@ class FavoriteAdapter(
         val item = list[position]
 
         holder.tv_kategori.visibility = View.GONE
-        holder.btn_resep.visibility = if (showResepButton) View.VISIBLE else View.GONE
-        holder.tv_name.text = item.recipe?.name?.toUpperCase() ?: ""
+        holder.tv_name.text = item.name?.toUpperCase() ?: ""
         holder.tv_desc.apply {
-            text = item.recipe?.description ?: ""
+            text = item.description ?: ""
             maxLines = 5
             ellipsize = android.text.TextUtils.TruncateAt.END
         }
 
-        val imageUrl = item.recipe?.image?.getOrNull(0)
+        val imageUrl = item.image?.getOrNull(0)
 
         if (imageUrl != null && imageUrl.isNotBlank()) {
             Glide.with(context)
@@ -88,9 +94,11 @@ class FavoriteAdapter(
                 .centerCrop()
                 .into(holder.img_Resep)
         }
+        Log.d("ResepkuAdapter", "Binding item at position $position: ${item.name}")
     }
 
-    fun updateData(newList: List<DataGet>) {
+    fun updateData(newList: List<DataByUser>) {
+        Log.d("ResepkuAdapter", "Updating data with new list of size: ${newList.size}")
         list.clear()
         list.addAll(newList)
         notifyDataSetChanged()
@@ -102,7 +110,7 @@ class FavoriteAdapter(
         notifyDataSetChanged()
     }
 
-    fun addData(resep: DataGet) {
+    fun addData(resep: DataByUser) {
         list.add(resep)
         notifyDataSetChanged()
     }

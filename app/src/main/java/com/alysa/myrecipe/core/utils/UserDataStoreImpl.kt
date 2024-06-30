@@ -11,11 +11,13 @@ class UserDataStoreImpl(private val context: Context) {
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    fun saveToken(token: String, refreshToken: String?, id: Int) {
+    fun saveToken(token: String, refreshToken: String?, id: Int, username: String) {
         val editor = sharedPreferences.edit()
         editor.putString("token", token)
         editor.putString("refreshToken", refreshToken)
         editor.putInt("id", id)
+        editor.putString("username", username)
+//        editor.putString("age", age)
         editor.apply()
         Log.d("UserDataStoreImpl", "Token saved: $token")
     }
@@ -38,6 +40,8 @@ class UserDataStoreImpl(private val context: Context) {
         val editor = sharedPreferences.edit()
         editor.remove("token")
         editor.remove("refreshToken")
+        editor.remove("id")
+        editor.remove("username")
         editor.apply()
         Log.d("UserDataStoreImpl", "Token cleared")
     }

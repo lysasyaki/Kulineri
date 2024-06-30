@@ -39,7 +39,7 @@ class FavoriteActivity : AppCompatActivity(), RecipeFavorite {
                 intent.putExtra("id", productId)
                 startActivity(intent)
             }
-        })
+        }, showResepButton = false)
 
         val recyclerView = findViewById<RecyclerView>(R.id.rv_fav)
         recyclerView.adapter = adapter

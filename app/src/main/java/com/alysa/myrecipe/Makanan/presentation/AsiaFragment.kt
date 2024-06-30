@@ -45,7 +45,7 @@ class AsiaFragment : Fragment(), RecipeMakananView {
                 intent.putExtra("id", productId)
                 startActivity(intent)
             }
-        })
+        }, showResepButton = false)
 
         val apiServiceProduct =
             ApiConfig.getApiService(requireContext(), "recipeMakanan") as? ApiServiceRecipeMakanan
