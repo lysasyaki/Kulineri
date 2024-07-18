@@ -7,6 +7,9 @@ data class DataUpload(
 	@field:SerializedName("image")
 	var image: List<String>? = null,
 
+	@field:SerializedName("video")
+	var video: List<String>? = null,
+
 	@field:SerializedName("createdAt")
 	var createdAt: String? = null,
 

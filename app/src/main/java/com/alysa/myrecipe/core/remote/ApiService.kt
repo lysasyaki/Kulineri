@@ -87,6 +87,7 @@ interface ApiServiceUpload {
     fun postUploadRecipe(
         @Header("Authorization") authorization: String,
         @Part image: MultipartBody.Part,
+        @Part video: MultipartBody.Part,
         @Part("name") name: RequestBody,
         @Part("description") description: RequestBody,
         @Part("Ingredient") ingredient: RequestBody,

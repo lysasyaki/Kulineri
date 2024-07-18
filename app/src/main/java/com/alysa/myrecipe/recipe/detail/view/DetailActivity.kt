@@ -1,10 +1,13 @@
 package com.alysa.myrecipe.recipe.detail.view
 
+import android.content.Context
 import android.content.SharedPreferences
+import android.media.AudioManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
 import com.alysa.myrecipe.R
@@ -16,6 +19,9 @@ import com.alysa.myrecipe.core.view.RecipeDetailView
 import com.alysa.myrecipe.recipe.detail.presenter.DetailPresenter
 import com.alysa.myrecipe.recipe.detail.presenter.FavoritesPresenter
 import com.bumptech.glide.Glide
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.gson.Gson
 
 class DetailActivity : AppCompatActivity(), RecipeDetailView {
@@ -27,12 +33,18 @@ class DetailActivity : AppCompatActivity(), RecipeDetailView {
     private var recipeId: Int = 0
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var userPreferences: UserPreferences
+    private lateinit var player: ExoPlayer
+    private lateinit var playerView: PlayerView
+    private lateinit var audioManager: AudioManager
+//    private lateinit var volumeSeekBar: SeekBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
         btnFavorite = findViewById(R.id.btnFavorite)
+        playerView = findViewById(R.id.video)
+//        volumeSeekBar = findViewById(R.id.volume_seekbar)
 
         sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userPreferencesJson = sharedPreferences.getString("user_preferences", null)
@@ -61,6 +73,28 @@ class DetailActivity : AppCompatActivity(), RecipeDetailView {
         btnFavorite.setOnClickListener {
             toggleFavorite()
         }
+
+        // Inisiasi ExoPlayer
+        player = ExoPlayer.Builder(this).build()
+        playerView.player = player
+
+        // Inisiasi AudioManager
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        // Atur kontrol volume untuk menggunakan tombol volume perangkat
+        volumeControlStream = AudioManager.STREAM_MUSIC
+
+//
+//        // Atur volume player berdasarkan seek bar
+//        volumeSeekBar.progress = (player.volume * 100).toInt()
+//        volumeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//                player.volume = progress / 100f
+//            }
+//
+//            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+//        })
     }
 
     private fun toggleFavorite() {
@@ -128,6 +162,15 @@ class DetailActivity : AppCompatActivity(), RecipeDetailView {
                         .centerCrop()
                         .into(imgResep)
 
+                    // Load video jika tersedia
+                    val videoUrl = dataDetail.video?.getOrNull(0)
+                    if (videoUrl != null) {
+                        val mediaItem = MediaItem.fromUri(videoUrl)
+                        player.setMediaItem(mediaItem)
+                        player.prepare()
+                        player.play()
+                    }
+
                     presenter.currentDataItem = dataDetail
                 } else {
                     Toast.makeText(this, "Data not found", Toast.LENGTH_SHORT).show()
@@ -144,5 +187,11 @@ class DetailActivity : AppCompatActivity(), RecipeDetailView {
     }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Pastikan untuk melepaskan player saat aktivitas dihancurkan
+        player.release()
     }
 }

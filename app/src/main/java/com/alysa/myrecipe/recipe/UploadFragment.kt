@@ -34,16 +34,21 @@ class UploadFragment : Fragment(), AddRecipeView {
     private lateinit var ingredientEditText: EditText
     private lateinit var instructionEditText: EditText
     private lateinit var submitButton: Button
+    private lateinit var editVideoImageView: VideoView
 
     private var kategoriMap: HashMap<String, Int> = HashMap()
     private var selectedCategoryId: Int = -1
     private var selectedTypeId: Int = -1
     private var selectedImageUri: Uri? = null
+    private var selectedVideoUri: Uri? = null
 
     private var unitMap: HashMap<String, Int> = HashMap()
 
     private val IMAGE_PICK_CODE = 1000
     private val PERMISSION_CODE = 1001
+
+    private val VIDEO_PICK_CODE = 2000
+    private val VIDEO_PERMISSION_CODE = 2001
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +60,7 @@ class UploadFragment : Fragment(), AddRecipeView {
         typeSpinner = view.findViewById(R.id.spUnit)
         pictureImageView = view.findViewById(R.id.ivPicture)
         editPictureImageView = view.findViewById(R.id.ivEditPicture)
+        editVideoImageView = view.findViewById(R.id.ivVideo)
         nameEditText = view.findViewById(R.id.etName)
         descriptionEditText = view.findViewById(R.id.etDeskripsi)
         ingredientEditText = view.findViewById(R.id.etBahan)
@@ -78,6 +84,23 @@ class UploadFragment : Fragment(), AddRecipeView {
             }
         }
 
+        // Setup video selection click listener
+        editVideoImageView.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                pickVideoFromGallery()
+            } else {
+                ActivityCompat.requestPermissions(
+                    requireActivity(),
+                    arrayOf(READ_EXTERNAL_STORAGE),
+                    VIDEO_PERMISSION_CODE
+                )
+            }
+        }
+
         submitButton.setOnClickListener {
             val name = nameEditText.text.toString().trim()
             val description = descriptionEditText.text.toString().trim()
@@ -96,12 +119,15 @@ class UploadFragment : Fragment(), AddRecipeView {
             Log.d("UploadFragment", "CategoryId: $categoryId")
             Log.d("UploadFragment", "UnitId: $unitId")
             Log.d("UploadFragment", "ImageUri: $selectedImageUri")
+            Log.d("UploadFragment", "VideoUri: $selectedVideoUri")
 
 
             if (name.isNotEmpty() && description.isNotEmpty() && ingredient.isNotEmpty() && instruction.isNotEmpty() && selectedImageUri != null) {
                 val imagePath = getRealPathFromURI(selectedImageUri)
+                val videoPath = getRealPathFromURI(selectedVideoUri)
                 if (imagePath != null) {
                     val imageFile = File(imagePath)
+                    val videoFile = File(videoPath)
                     val dataUpload = DataUpload(
                         name = name,
                         description = description,
@@ -111,7 +137,7 @@ class UploadFragment : Fragment(), AddRecipeView {
                         unitId = unitId ?: -1
                     )
 
-                    addRecipePresenter.postUploadRecipe(dataUpload, imageFile)
+                    addRecipePresenter.postUploadRecipe(dataUpload, imageFile, videoFile)
                 } else {
                     Toast.makeText(requireContext(), "Failed to get image path", Toast.LENGTH_SHORT).show()
                 }
@@ -202,6 +228,11 @@ class UploadFragment : Fragment(), AddRecipeView {
         }
     }
 
+    private fun pickVideoFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, VIDEO_PICK_CODE)
+    }
+
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, IMAGE_PICK_CODE)
@@ -216,6 +247,13 @@ class UploadFragment : Fragment(), AddRecipeView {
                 Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
             }
         }
+        if (requestCode == VIDEO_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                pickVideoFromGallery()
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -223,6 +261,12 @@ class UploadFragment : Fragment(), AddRecipeView {
         if (requestCode == IMAGE_PICK_CODE && resultCode == Activity.RESULT_OK && data != null) {
             selectedImageUri = data.data
             pictureImageView.setImageURI(selectedImageUri)
+        }
+        if (requestCode == VIDEO_PICK_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            selectedVideoUri = data.data
+            editVideoImageView.setVideoURI(selectedVideoUri)
+            editVideoImageView.start()
+            Toast.makeText(requireContext(), "Video Selected", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -243,6 +287,7 @@ class UploadFragment : Fragment(), AddRecipeView {
         instructionEditText.text.clear()
         pictureImageView.setImageResource(R.drawable.gambar_default)
         selectedImageUri = null
+        selectedVideoUri = null
     }
 
     override fun showAddRecipeSuccessMessage(message: String?, data: DataUpload?) {

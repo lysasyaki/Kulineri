@@ -22,16 +22,19 @@ class AddRecipePresenter(
 
     private val apiServiceUpload: ApiServiceUpload = ApiConfig.getApiService(context, "uploadRecipe") as ApiServiceUpload
 
-    fun postUploadRecipe(dataUpload: DataUpload, imageFile: File) {
+    fun postUploadRecipe(dataUpload: DataUpload, imageFile: File, videoFile: File) {
         // Log dataUpload to verify its content
         Log.d("AddRecipePresenter", "DataUpload: $dataUpload")
 
         val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), imageFile)
         val body = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
 
+        val videoRequestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), videoFile)
+        val videoBody = MultipartBody.Part.createFormData("video", videoFile.name, videoRequestFile)
+
         // Call the API service method to upload recipe
         val call = apiServiceUpload.postUploadRecipe(
-            "Bearer ${userDataStore.getToken()}", body,
+            "Bearer ${userDataStore.getToken()}", body, videoBody,
             RequestBody.create("text/plain".toMediaTypeOrNull(), dataUpload.name ?: ""),
             RequestBody.create("text/plain".toMediaTypeOrNull(), dataUpload.description ?: ""),
             RequestBody.create("text/plain".toMediaTypeOrNull(), dataUpload.ingredient ?: ""),
@@ -53,6 +56,7 @@ class AddRecipePresenter(
                         categoryId = responseData?.categoryId ?: 0
                         unitId = responseData?.unitId ?: 0
                         image = responseData?.image.orEmpty()
+                        video = responseData?.video.orEmpty()
                         updatedAt = responseData?.updatedAt.orEmpty()
                         createdAt = responseData?.createdAt.orEmpty()
                     }

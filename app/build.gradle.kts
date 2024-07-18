@@ -59,7 +59,7 @@ dependencies {
     implementation("io.realm.kotlin:library-base:1.11.0")
     implementation("io.realm.kotlin:library-sync:1.11.0") // If using Device Sync
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0") // If using coroutines with the SDK
-//    kapt("io.realm:realm-annotations-processor:10.9.0")
+    // kapt("io.realm:realm-annotations-processor:10.9.0")
     implementation("io.realm:realm-android-library:10.9.0")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
 
@@ -81,4 +81,8 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("androidx.legacy:legacy-support-v4:1.0.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+
+    //exoplayer
+    implementation ("com.google.android.exoplayer:exoplayer:2.16.1")
+
 }

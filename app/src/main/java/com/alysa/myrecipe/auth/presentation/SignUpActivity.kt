@@ -123,7 +123,7 @@ class SignUpActivity : AppCompatActivity(){
             override fun afterTextChanged(s: Editable?) {
                 val pass = s.toString()
 
-                if (pass.isBlank()) {
+                if (pass.length < 8) {
                     authPasswordTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.RED))
                     authPasswordTextLayout.helperText = "at least input 8 character*"
                     authPasswordTextLayout.error = null // Menghapus pesan kesalahan jika ada
